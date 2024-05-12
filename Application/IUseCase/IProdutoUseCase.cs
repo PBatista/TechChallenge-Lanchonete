@@ -1,18 +1,21 @@
 ﻿using Domain.Entities;
+using InfraMongoDb.DTO;
 
 namespace Application.IUseCase
 {
     public interface IProdutoUseCase
     {
-        Task<IEnumerable<Produto>> ListarProdutos();
+        Task<List<Produto>> ListarProdutos();
 
-        Task<IEnumerable<Produto>> ObterProdutosPorCategoria(int categoria_id);
+        Task<List<Produto>> ObterProdutosPorCategoria(string categoria);
+
+        Task<Produto> ObterProdutoPorNome(string nome);
 
         Task SalvarProduto(Produto produto);
 
-        Task EditarProduto(Produto produto);
+        Task EditarProduto(string nome, Produto produto);
 
-        Task DeletarProduto(int Id);
+        Task DeletarProduto(string nome);
         
     }
 }

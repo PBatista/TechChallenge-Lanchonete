@@ -9,6 +9,7 @@ C:\Users\peeeh\OneDrive\Documentos\FIAP\TECH CHALLENGER\Projeto\Lanchonete\Infra
 C:\Users\peeeh\OneDrive\Documentos\FIAP\TECH CHALLENGER\Projeto\Lanchonete\Infra\obj\Debug\net8.0\Infra.AssemblyInfoInputs.cache
 C:\Users\peeeh\OneDrive\Documentos\FIAP\TECH CHALLENGER\Projeto\Lanchonete\Infra\obj\Debug\net8.0\Infra.AssemblyInfo.cs
 C:\Users\peeeh\OneDrive\Documentos\FIAP\TECH CHALLENGER\Projeto\Lanchonete\Infra\obj\Debug\net8.0\Infra.csproj.CoreCompileInputs.cache
+C:\Users\peeeh\OneDrive\Documentos\FIAP\TECH CHALLENGER\Projeto\Lanchonete\Infra\obj\Debug\net8.0\Infra.sourcelink.json
 C:\Users\peeeh\OneDrive\Documentos\FIAP\TECH CHALLENGER\Projeto\Lanchonete\Infra\obj\Debug\net8.0\Infra.csproj.Up2Date
 C:\Users\peeeh\OneDrive\Documentos\FIAP\TECH CHALLENGER\Projeto\Lanchonete\Infra\obj\Debug\net8.0\Infra.dll
 C:\Users\peeeh\OneDrive\Documentos\FIAP\TECH CHALLENGER\Projeto\Lanchonete\Infra\obj\Debug\net8.0\refint\Infra.dll

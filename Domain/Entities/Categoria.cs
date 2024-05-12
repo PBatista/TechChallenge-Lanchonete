@@ -9,14 +9,18 @@ namespace Domain.Entities
 {
     public class Categoria : IAggregateRoot
     {
-        public Categoria(int id, string nome)
+        public Categoria(string nome)
         {
-
-            Id = id;
+            
             Nome = nome;           
         }
-
-        public int Id { get; private set; }
+        
         public string Nome { get; private set; }
+
+        public void ValidateEntity()
+        {
+            AssertionConcern.AssertArgumentNotEmpty(Nome, "O Nome não pode estar vazio");
+        }
     }
+   
 }
