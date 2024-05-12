@@ -1,6 +1,10 @@
 ﻿using Application.IUseCase;
+using Domain.Base;
 using Domain.Entities;
 using Domain.Repositories;
+using System.ComponentModel.DataAnnotations;
+using System.Drawing;
+using System.Drawing.Printing;
 
 namespace Application.UseCase
 {
@@ -13,29 +17,79 @@ namespace Application.UseCase
             _produtoRepository = produtoRepository;
         }       
 
-        public Task<IEnumerable<Produto>> ListarProdutos()
+        public async Task<List<Produto>> ListarProdutos()
         {
-            return _produtoRepository.ListarProdutos();
+            try
+            {
+                return await _produtoRepository.ListarProdutos();
+            }
+            catch (Exception ex)
+            {
+                throw new DomainException($"Não foi possível listar os produtos.", ex);                
+            }            
         }
 
-        public Task<IEnumerable<Produto>> ObterProdutosPorCategoria(int categoria_id)
+        public async Task<List<Produto>> ObterProdutosPorCategoria(string categoria)
         {
-            return _produtoRepository.ObterProdutosPorCategoria(categoria_id);
+            try
+            {
+                return await _produtoRepository.ObterProdutosPorCategoria(categoria.Trim());
+            }
+            catch (Exception ex)
+            {
+                throw new DomainException($"Não foi possível obter os produtos pela categoria '{categoria.Trim()}'.", ex);                
+            }
+            
         }
 
         public async Task SalvarProduto(Produto produto)
         {
-            await _produtoRepository.SalvarProduto(produto);
+            try
+            {
+                await _produtoRepository.SalvarProduto(produto);
+            }
+            catch (Exception ex)
+            {
+                throw new DomainException($"Não foi possível salvar o produto '{produto.Nome}'.", ex);                
+            }
+            
         }
 
-        public async Task EditarProduto(Produto produto)
+        public async Task EditarProduto(string nome, Produto produto)
         {
-            await _produtoRepository.EditarProduto(produto);
+            try
+            {
+                await _produtoRepository.EditarProduto(nome, produto);
+            }
+            catch (Exception ex)
+            { 
+                throw new DomainException($"Não foi possível editar o produto '{nome}'.", ex);                
+            }            
         }
 
-        public async Task DeletarProduto(int id)
+        public async Task DeletarProduto(string nome)
         {
-            await _produtoRepository.DeletarProduto(id);
+            try
+            {
+                await _produtoRepository.DeletarProduto(nome);
+            }
+            catch (Exception ex)
+            {
+                throw new DomainException($"Não foi possível deletar o produto '{nome}'.", ex);                
+            }            
         }
+
+        public async Task<Produto> ObterProdutoPorNome(string nome)
+        {
+            try
+            {
+                return await _produtoRepository.ObterProdutosPorNome(nome.Trim());
+            }
+            catch (Exception ex)
+            {
+                throw new DomainException($"Não foi possível obter o produto.", ex);
+            }
+        }
+
     }
 }

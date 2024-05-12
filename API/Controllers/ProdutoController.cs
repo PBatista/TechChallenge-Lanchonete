@@ -9,60 +9,76 @@ namespace API.Controllers
     [Route("[controller]")]
     public class ProdutoController : ControllerBase
     {
-       public readonly ILogger<ProdutoController> _logger;
-       public readonly IProdutoUseCase _produtoUseCase;
+        public readonly ILogger<ProdutoController> _logger;
+        public readonly IProdutoUseCase _produtoUseCase;
+        public readonly ICategoriaUseCase _categoriaUseCase;
 
-       public ProdutoController(ILogger<ProdutoController> logger, IProdutoUseCase produtoUseCase)
-       {
+        public ProdutoController(ILogger<ProdutoController> logger, IProdutoUseCase produtoUseCase, ICategoriaUseCase categoriaUseCase)
+        {
             _logger = logger;
             _produtoUseCase = produtoUseCase;
-       }
+            _categoriaUseCase = categoriaUseCase;
+        }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Produto>>> Get()
+        public async Task<ActionResult<List<Produto>>> Get()
         {
             var produtos = await _produtoUseCase.ListarProdutos();
             return Ok(produtos);
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post(Produto produto)
+        public async Task<IActionResult> Post(Produto produto)
         {
+            Produto produtoCadastrado = await _produtoUseCase.ObterProdutoPorNome(produto.Nome);
+            if (produtoCadastrado != null)
+            {
+                return BadRequest($"O produto '{produto.Nome.Trim()}' já está cadastrado");
+            }
+            else if (!_categoriaUseCase.ValidarCategoria(produto.Categoria))
+            {
+                return BadRequest($"A categoria '{produto.Categoria.Trim()}' não existe na nossa base de dados, favor escolha uma categoria válida");
+            }
             await _produtoUseCase.SalvarProduto(produto);
-            return Ok("Cadastro do produto feito com sucesso");
+            return Ok($"Cadastro do produto '{produto.Nome}' foi feito com sucesso");
+
         }
 
-        [HttpPut("{id}")]
-        public async Task<ActionResult> Put(int id, Produto produto)
+        [HttpPut("{nome}")]
+        public async Task<IActionResult> Put(string nome, Produto produto)
         {
-            if (id != produto.Id)
+            Produto produtoCadastrado = await _produtoUseCase.ObterProdutoPorNome(nome);
+            if (produtoCadastrado == null)
             {
-                return BadRequest();
+                return BadRequest($"O produto '{nome.Trim()}' não está cadastrado, favor escolha um produto válido.");
             }
-            try
+            await _produtoUseCase.EditarProduto(nome, produto);
+            return Ok($"Produto '{nome}' foi editado com sucesso");
+        }
+
+        [HttpDelete("{nome}")]
+        public async Task<IActionResult> Delete(string nome)
+        {
+            await _produtoUseCase.DeletarProduto(nome);
+            return Ok($"Produto '{nome}' deletado com sucesso");
+        }
+
+        [HttpGet("categoria/{categoria}")]
+        public async Task<IActionResult> ObterProdutosPorCategoria(string categoria)
+        {
+            if (_categoriaUseCase.ValidarCategoria(categoria))
             {
-                await _produtoUseCase.EditarProduto(produto);
-                return Ok("Produto editar com sucesso");
+                var produtos = await _produtoUseCase.ObterProdutosPorCategoria(categoria);
+                if (produtos != null && produtos.Count > 0)
+                {
+                    return Ok(produtos);
+                }
+                else
+                {
+                    return BadRequest($"Não existe produtos com a categoriao {categoria.Trim()}");
+                }
             }
-            catch (DbUpdateConcurrencyException)
-            {
-                // Lidar com exceções de concorrência
-                return NotFound();
-            }            
-        }
-
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
-        {
-            await _produtoUseCase.DeletarProduto(id);
-            return Ok("Produto deletado com sucesso"); ;
-        }
-
-        [HttpGet("categoria/{categoriaId}")]
-        public async Task<ActionResult<IEnumerable<Produto>>> ObterProdutosPorCategoria(int categoriaId)
-        {
-            var produtos = await _produtoUseCase.ObterProdutosPorCategoria(categoriaId);
-            return Ok(produtos);
+            else return BadRequest($"A categoria {categoria.Trim()} não existe");
         }
     }
 }

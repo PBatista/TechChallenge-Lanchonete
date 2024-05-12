@@ -8,6 +8,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj" />
+    <ProjectReference Include="..\InfraMongoDb\InfraMongoDb.csproj" />
+    <ProjectReference Include="..\MercadoPagoIntegracao\MercadoPagoIntegracao.csproj" />
   </ItemGroup>
 
 </Project>
