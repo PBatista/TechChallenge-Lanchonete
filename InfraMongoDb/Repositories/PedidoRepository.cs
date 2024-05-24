@@ -48,8 +48,8 @@ namespace InfraMongoDb.Repositories
         public async Task<List<Pedido>> ListarPedidosEmAndamento()
         {
                    
-            var filterFinalizado = Builders<BsonDocument>.Filter.Ne("Status", "Finalizado");
-            var filterNull = Builders<BsonDocument>.Filter.Ne("Status", "");
+            var filterFinalizado = Builders<BsonDocument>.Filter.Ne("Status", "FINALIZADO");
+            var filterNull = Builders<BsonDocument>.Filter.Ne("Status", "AGUARDANDO PAGAMENTO");
             var combinedFilter = Builders<BsonDocument>.Filter.And(filterFinalizado, filterNull);
 
             var pedidoDocuments = await _pedidoCollection.Find(combinedFilter).ToListAsync();
@@ -65,16 +65,16 @@ namespace InfraMongoDb.Repositories
             return pedidos;
         }
 
-        public Task<Pedido> ObterPedidoPorNumero(string numPedido)
+        public async Task<Pedido> ObterPedidoPorNumero(string numPedido)
         {
             var filtro = Builders<BsonDocument>.Filter.Eq("NumPedido", numPedido);            
-            var resultado = _pedidoCollection.Find(filtro).FirstOrDefault();
+            var resultado = await _pedidoCollection.Find(filtro).FirstOrDefaultAsync();
 
             if (resultado != null)
             {
                 var pedidoDTO = BsonSerializer.Deserialize<PedidoDTO>(resultado);
                 Pedido pedido = PedidoMapper.MapToEntity(pedidoDTO);
-                return Task.FromResult(pedido);
+                return pedido;
             }
             else
             {
@@ -122,6 +122,27 @@ namespace InfraMongoDb.Repositories
 
             return "001";
         }
-        
+
+        public async Task<List<Pedido>> ListarPedidosPorStatus(string status)
+        {
+            var filtro = Builders<BsonDocument>.Filter.Eq("Status", status.ToUpper());
+            var resultado = await _pedidoCollection.Find(filtro).ToListAsync();
+            var pedidos = new List<Pedido>();
+
+            if (resultado != null)
+            {
+                foreach (var document in resultado)
+                {
+                    var pedidoDTO = BsonSerializer.Deserialize<PedidoDTO>(document);
+                    Pedido pedido = PedidoMapper.MapToEntity(pedidoDTO);
+                    pedidos.Add(pedido);
+                }
+                return pedidos;
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }

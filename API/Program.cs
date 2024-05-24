@@ -34,13 +34,15 @@ builder.Services.AddTransient<ICategoriaRepository, CategoriaRepository>();
 builder.Services.AddTransient<IProdutoRepository, ProdutoRepository>();
 builder.Services.AddTransient<IClienteRepository, ClienteRepository>();
 builder.Services.AddTransient<IPedidoRepository, PedidoRepository>();
+builder.Services.AddTransient<IPagamentoRepository, PagamentoRepository>();
 
 builder.Services.AddTransient<IMercadoPagoService, MercadoPagoService>();
 
 // Registro do IMongoClient
 builder.Services.AddSingleton<IMongoClient>(sp =>
 {
-    var connectionString = "mongodb://127.0.0.1:27017";
+    // var connectionString = "mongodb://localhost:27017";
+    var connectionString = "mongodb://mongo:27018";
     return new MongoClient(connectionString);
 });
 

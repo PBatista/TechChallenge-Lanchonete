@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "1kUqfOl3h4mVtss0LVaTGWe++O+esxn8xi2xZjA7nsbhyq35bQdJpVH3lvTQOVOhbDKRJgRO041uSjfYERXiEw==",
+  "dgSpecHash": "xBPyGeXIZL5qzX3bdK/AG3aplGWCD9YFtxFI8BP188hFu3abc0xiv8PDm8JaloVEFHc2Bfmec/zcZjrsK5NjHg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\TECH CHALLENGER\\Projeto\\Lanchonete\\API\\API.csproj",
+  "projectFilePath": "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\TECH_CHALLENGER\\Projeto\\Lanchonete\\API\\API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\peeeh\\.nuget\\packages\\awssdk.core\\3.7.100.14\\awssdk.core.3.7.100.14.nupkg.sha512",
     "C:\\Users\\peeeh\\.nuget\\packages\\awssdk.securitytoken\\3.7.100.14\\awssdk.securitytoken.3.7.100.14.nupkg.sha512",

@@ -90,6 +90,7 @@ namespace Application.UseCase
                 throw new DomainException($"Não foi possível obter o produto.", ex);
             }
         }
+        
 
     }
 }

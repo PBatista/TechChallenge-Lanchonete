@@ -11,7 +11,7 @@ namespace InfraMongoDb.DTO
 
             Id = _id;
             Nome = nome;
-            Categoria = categoria;
+            Categoria = categoria.ToUpper();
             Preco = preco;
             Descricao = descricao;
             Imagens = imagens;

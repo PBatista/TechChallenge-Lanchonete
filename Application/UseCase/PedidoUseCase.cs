@@ -3,7 +3,9 @@ using Application.IUseCase;
 using Domain.Base;
 using Domain.Entities;
 using Domain.Repositories;
+using InfraMongoDb.DTO;
 using InfraMongoDb.Repositories;
+using System.Reflection.Metadata.Ecma335;
 
 namespace Application.UseCase
 {
@@ -13,7 +15,7 @@ namespace Application.UseCase
         private readonly IClienteRepository _clienteRepository;
         private readonly IProdutoRepository _produtoRepository;
 
-        public PedidoUseCase(IPedidoRepository pedidoRepository, IClienteRepository clienteRepository, IProdutoRepository produtoRepository)
+        public PedidoUseCase(IPedidoRepository pedidoRepository, IClienteRepository clienteRepository, IProdutoRepository produtoRepository, ICategoriaUseCase categoriaUseCase)
         {
             _pedidoRepository = pedidoRepository;
             _clienteRepository = clienteRepository;
@@ -28,8 +30,8 @@ namespace Application.UseCase
             }
             catch (Exception ex)
             {
-                throw new DomainException($"Não foi possível listar os pedidos.", ex);                
-            }            
+                throw new DomainException($"Não foi possível listar os pedidos.", ex);
+            }
         }
 
         public async Task<Pedido> ObterPedidoPorNumero(string numPedido)
@@ -42,47 +44,41 @@ namespace Application.UseCase
             {
                 throw new DomainException($"Não foi possível obter o pedido com número '{numPedido}'.", ex);
             }
-            
+
         }
 
         public async Task<string> SalvarPedido(PedidoApplicationDTO pedidoDTO)
         {
             try
             {
-                Cliente cliente;
-                if (pedidoDTO.Cpf != null && pedidoDTO.Cpf.Trim() != "")
-                {
-                    cliente = await _clienteRepository.ObterClientePorCpf(pedidoDTO.Cpf);
-                }
+                Cliente? cliente = null;
+                if (pedidoDTO.Cpf != null && pedidoDTO.Cpf.Trim() != "") cliente = await _clienteRepository.ObterClientePorCpf(pedidoDTO.Cpf);
                 else
                 {
-                    cliente = new Cliente("", "", "", "Cliente não se indentificou");
+                    if (string.IsNullOrWhiteSpace(pedidoDTO.Descricao)) pedidoDTO.Descricao = "Obs: Cliente optou por não se identificar";
+                    else pedidoDTO.Descricao += Environment.NewLine + "Obs: Cliente optou por não se identificar";
                 }
 
-                List<Produto> listaProdutos = new List<Produto>();
+                List<Produto> listaProdutos = [];
 
-                foreach (var produto in pedidoDTO.Produtos)
+                foreach (var produtoDTO in pedidoDTO.Produtos)
                 {
-                    Produto prod = await _produtoRepository.ObterProdutosPorNome(produto.Nome);
+                    Produto prod = await _produtoRepository.ObterProdutosPorNome(produtoDTO.Nome)
+                        ?? throw new DomainException($"Produto '{produtoDTO.Nome}' não encontrado.");
 
-                    if (prod == null)
-                    {
-                        throw new DomainException($"Produto '{produto.Nome}' não encontrado.");
-                    }
-
-                    listaProdutos.Add(prod);
+                    var produtosRepetidos = Enumerable.Range(0, produtoDTO.Quantidade).Select(_ => prod);
+                    listaProdutos.AddRange(produtosRepetidos);
                 }
 
-                double valorTotal = listaProdutos.Sum(x => x.Preco);
+                double valorTotal = listaProdutos.Sum(prod => prod.Preco);
 
-                // CPF pode ser nulo se o cliente não estiver identificado
-                Pedido pedido = new Pedido("", listaProdutos, cliente, valorTotal, "", DateTime.Now);
+                Pedido pedido = new("", listaProdutos, cliente, valorTotal, "AGUARDANDO PAGAMENTO", pedidoDTO.Descricao, DateTime.Now);
                 return await _pedidoRepository.SalvarPedido(pedido);
             }
             catch (Exception ex)
             {
                 throw new DomainException($"Não foi possível salvar o pedido.", ex);
-            }                        
+            }
         }
 
         public Task AtualizarStatus(string status, string numPedido)
@@ -93,8 +89,8 @@ namespace Application.UseCase
             }
             catch (Exception ex)
             {
-                throw new DomainException($"Não foi possível atualizar o pedido número '{numPedido}' com o status ${status}.", ex);                
-            }            
+                throw new DomainException($"Não foi possível atualizar o pedido número '{numPedido}' com o status ${status}.", ex);
+            }
         }
 
         public Task<List<Pedido>> ListarPedidosEmAndamento()
@@ -105,8 +101,36 @@ namespace Application.UseCase
             }
             catch (Exception ex)
             {
-                throw new DomainException($"Não foi possível listar os pedidos em andamento.", ex);               
-            }            
+                throw new DomainException($"Não foi possível listar os pedidos em andamento.", ex);
+            }
         }
+
+        public Task<List<Pedido>> ListarPedidosPorStatus(string status)
+        {
+            try
+            {
+                return _pedidoRepository.ListarPedidosPorStatus(status);
+            }
+            catch (Exception ex)
+            {
+                throw new DomainException($"Não foi possível listar os pedidos pelo status {status}.", ex);
+            }
+        }
+
+        public async Task<bool> ValidarStatusPedido(string status, string numPedido)
+        {            
+            if (status == "RECEBIDO" || status == "EM PREPARO" || status == "PRONTO" || status == "FINALIZADO")
+            {
+                var pedido = await _pedidoRepository.ObterPedidoPorNumero(numPedido) ?? throw new DomainException($"Não foi possível encontrar o pedido número '{numPedido}'.");
+                if (pedido != null && (pedido.Status.Equals("AGUARDANDO PAGAMENTO") || pedido.Status.Equals("FINALIZADO"))) 
+                    throw new DomainException($"Não foi possível atualizar o pedido número '{numPedido}' com o status {status}, pois o pedido está com o status {pedido.Status}.");
+                if (pedido != null && pedido.Status.Equals(status)) 
+                    throw new DomainException($"Não foi possível atualizar o pedido número '{numPedido}' com o status {status}, pois o status já está como {pedido.Status}.");               
+
+                return true;
+            }
+            else throw new DomainException($"Não foi possível atualizar o pedido número '{numPedido}' com o status {status}.");
+        }
+
     }
 }

@@ -9,6 +9,11 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["API/API.csproj", "API/"]
+COPY ["Application/Application.csproj", "Application/"]
+COPY ["Domain/Domain.csproj", "Domain/"]
+COPY ["InfraMongoDb/InfraMongoDb.csproj", "InfraMongoDb/"]
+COPY ["MercadoPagoIntegracao/MercadoPagoIntegracao.csproj", "MercadoPagoIntegracao/"]
+COPY ["Infra/Infra.csproj", "Infra/"]
 RUN dotnet restore "./API/API.csproj"
 COPY . .
 WORKDIR "/src/API"
