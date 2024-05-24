@@ -9,5 +9,6 @@ namespace Domain.Repositories
         Task<List<Pedido>> ListarPedidos();
         Task<Pedido> ObterPedidoPorNumero(string numPedido);
         Task<List<Pedido>> ListarPedidosEmAndamento();
+        Task<List<Pedido>> ListarPedidosPorStatus(string status);
     }
 }

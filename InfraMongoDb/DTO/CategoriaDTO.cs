@@ -7,7 +7,7 @@ namespace InfraMongoDb.DTO
         public CategoriaDTO(ObjectId _id, string nome)
         {
             Id = _id;
-            Nome = nome;            
+            Nome = nome.ToUpper();            
         }
         
         public string Nome { get; private set; }

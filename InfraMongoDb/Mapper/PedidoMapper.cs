@@ -15,12 +15,12 @@ namespace InfraMongoDb.Mapper
         {
             var valorTotal = entitie.Produtos.Sum(x => x.Preco);                        
 
-            return new PedidoDTO(ObjectId.GenerateNewId(), entitie.NumPedido, entitie.Cliente, entitie.Produtos, valorTotal, "", DateTime.Now);
+            return new PedidoDTO(ObjectId.GenerateNewId(), entitie.NumPedido, entitie.Cliente, entitie.Produtos, valorTotal, entitie.Status, entitie.Descricao, DateTime.Now);
         }
 
         public static Pedido MapToEntity(PedidoDTO dto)
         {                                 
-            return new Pedido(dto.NumPedido,dto.Produtos, dto.Cliente,dto.ValorTotal, dto.Status, dto.DataHora) { };
+            return new Pedido(dto.NumPedido,dto.Produtos, dto.Cliente,dto.ValorTotal, dto.Status, dto.Descricao, dto.DataHora) { };
         }
     }
 }

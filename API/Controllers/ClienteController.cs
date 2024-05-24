@@ -8,16 +8,10 @@ namespace API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class ClienteController : ControllerBase
+    public class ClienteController(ILogger<ClienteController> logger, IClienteUseCase clienteUseCase) : ControllerBase
     {
-        public readonly ILogger<ClienteController> _logger;
-        public readonly IClienteUseCase _clienteUseCase;
-
-        public ClienteController(ILogger<ClienteController> logger, IClienteUseCase clienteUseCase)
-        {
-            _logger = logger;
-            _clienteUseCase = clienteUseCase;
-        }       
+        public readonly ILogger<ClienteController> _logger = logger;
+        public readonly IClienteUseCase _clienteUseCase = clienteUseCase;
 
         [HttpGet]
         public async Task<ActionResult<List<Cliente>>> Get()
@@ -33,14 +27,14 @@ namespace API.Controllers
             if (cliente != null && cliente.Cpf != "") {
                 return Ok(cliente);
             }
-            else return BadRequest("Cliente não está cadastrado!");                        
+            else return BadRequest($"Cliente com CPF '{cpf}' não está cadastrado!");                        
         }
 
         [HttpPost]
         public async Task<ActionResult> Post(Cliente cliente)
         {
             await _clienteUseCase.SalvarCliente(cliente);
-            return Ok("Cadastro do cliente feito com sucesso");
+            return Ok($"Cadastro do cliente '{cliente.Nome}' foi feito com sucesso");
         }
     }
 }

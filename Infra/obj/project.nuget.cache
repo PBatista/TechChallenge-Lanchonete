@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Kp2/8t+TILMcSCVHDxBYO3FtOIUMhuh8SNoVBmvpRfFTJgaQxEsL7H9RLcJFVPD2bA6CPOAdzU6QD6jf6iBTow==",
+  "dgSpecHash": "6ZEIb0royOsVX6jVa8U9V+kv+aYXnOvaKJaXd+LmDlOrG7pjjLjDxk6ZUEk/ErqU+EQNN4qXDOyt5iPJwHA5Ew==",
   "success": true,
-  "projectFilePath": "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\TECH CHALLENGER\\Projeto\\Lanchonete\\Infra\\Infra.csproj",
+  "projectFilePath": "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\TECH_CHALLENGER\\Projeto\\Lanchonete\\Infra\\Infra.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\peeeh\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\peeeh\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",

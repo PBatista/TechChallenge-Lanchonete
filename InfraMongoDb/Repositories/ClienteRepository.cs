@@ -34,7 +34,7 @@ namespace InfraMongoDb.Repositories
         }
 
         public async Task<Cliente> ObterClientePorCpf(string cpf)
-        {            
+        {
             var filtro = Builders<BsonDocument>.Filter.Eq("Cpf", cpf);
             var resultado = await _clienteCollection.Find(filtro).FirstOrDefaultAsync();
 
@@ -44,10 +44,7 @@ namespace InfraMongoDb.Repositories
                 Cliente cliente = ClienteMapper.MapToEntity(clienteDTO);
                 return cliente;
             }
-            else
-            {
-                return new Cliente("", "", "", "");
-            }
+            else return null;
         }
 
         public async Task SalvarCliente(Cliente cliente)

@@ -29,8 +29,8 @@ namespace Application.UseCase
         public async Task<Cliente> ObterClientePorCpf(string cpf)
         {
             try
-            {
-                return await _clienteRepository.ObterClientePorCpf(cpf);
+            {                
+                return await _clienteRepository.ObterClientePorCpf(AssertionConcern.RemoveNumbers(cpf));
             }
             catch (Exception ex)
             {
@@ -42,7 +42,9 @@ namespace Application.UseCase
         {
             try
             {
-                await _clienteRepository.SalvarCliente(cliente);
+                var clienteExistente = await _clienteRepository.ObterClientePorCpf(cliente.Cpf);
+                if(clienteExistente == null) await _clienteRepository.SalvarCliente(cliente);
+                else throw new DomainException($"Não foi possível salvar o cliente, pois o CPF {cliente.Cpf} já está cadastrado!");
             }
             catch (Exception ex)
             {

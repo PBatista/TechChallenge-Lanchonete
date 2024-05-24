@@ -12,7 +12,7 @@ namespace InfraMongoDb.Mapper
     {
         public static Cliente MapToEntity(ClienteDTO dto)
         {
-            return new Cliente(dto.Nome, dto.Cpf, dto.Email, dto.Descricao)
+            return new Cliente(dto.Nome, dto.Cpf, dto.Email)
             {
                 // Id = dto.Id
             };

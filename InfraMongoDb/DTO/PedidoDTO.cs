@@ -9,16 +9,9 @@ using System.Threading.Tasks;
 namespace InfraMongoDb.DTO
 {
     public class PedidoDTO : BaseDTO
-    {        
-        public string NumPedido { get; set; }
-        public Cliente Cliente { get; private set; }
-        public List<Produto> Produtos { get; private set; }
-        public double ValorTotal { get; private set; }        
-        public string Status { get; private set; }
+    {
 
-        public DateTime DataHora { get; private set; }
-
-        public PedidoDTO(ObjectId _id, string numPedido, Cliente cliente, List<Produto> produtos, double valorTotal, string status, DateTime dataHora)
+        public PedidoDTO(ObjectId _id, string numPedido, Cliente cliente, List<Produto> produtos, double valorTotal, string status, string descricao, DateTime dataHora)
         {
             Id = _id;
             NumPedido = numPedido;
@@ -26,7 +19,16 @@ namespace InfraMongoDb.DTO
             Produtos = produtos;
             ValorTotal = valorTotal;
             Status = status;
+            Descricao = descricao;
             DataHora = dataHora;
-        }        
+        }
+
+        public string NumPedido { get; set; }
+        public Cliente Cliente { get; private set; }
+        public List<Produto> Produtos { get; private set; }
+        public double ValorTotal { get; private set; }
+        public string Descricao { get; private set; }
+        public string Status { get; private set; }
+        public DateTime DataHora { get; private set; }
     }
 }

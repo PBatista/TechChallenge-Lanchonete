@@ -16,6 +16,6 @@ namespace Application.IUseCase
         Task EditarProduto(string nome, Produto produto);
 
         Task DeletarProduto(string nome);
-        
+
     }
 }

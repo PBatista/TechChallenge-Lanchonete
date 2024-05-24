@@ -10,14 +10,16 @@ namespace Domain.Entities
         public double Preco { get; private set; } 
         public string Descricao { get; private set; }
         public string Imagens { get; private set; }
+        
 
         public Produto(string nome, string categoria, double preco, string descricao, string imagens) 
         { 
             Nome = nome;
-            Categoria = categoria;
+            Categoria = categoria.ToUpper();
             Preco = preco;
             Descricao = descricao;
             Imagens = imagens;
+            ValidateEntity();
         }        
 
         public void ValidateEntity()

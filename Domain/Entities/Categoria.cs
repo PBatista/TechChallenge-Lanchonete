@@ -10,9 +10,9 @@ namespace Domain.Entities
     public class Categoria : IAggregateRoot
     {
         public Categoria(string nome)
-        {
-            
-            Nome = nome;           
+        {            
+            Nome = nome.ToUpper().Trim();
+            ValidateEntity();
         }
         
         public string Nome { get; private set; }
