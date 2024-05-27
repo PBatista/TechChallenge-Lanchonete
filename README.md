@@ -103,7 +103,7 @@ Antes de rodar o projeto, certifique-se de que os seguintes pré-requisitos est�
    - docker-compose up
 
 4. **Acesse a url do Swagger**:
-   - URL: http://localhost:55349/swagger/index.html
+   - URL: http://localhost:8080/swagger/index.html
 
 ## Parando o Projeto
 Para parar o projeto e os serviços em execução, você pode pressionar Ctrl + C no terminal onde o docker-compose up está sendo executado. Em seguida, você pode limpar os contêineres com:
