@@ -6,6 +6,9 @@ services:
     build:
       context: .
       dockerfile: API/Dockerfile
+    depends_on:
+      - mongo
+    entrypoint: ["./wait-for-it.sh", "mongodb-container:27018", "--", "npm", "start"]
   mongo:
     image: mongo:latest
     container_name: mongodb-container
@@ -21,4 +24,4 @@ services:
 
 volumes:
   mongodb-data:
-    driver: local 
+    driver: local
