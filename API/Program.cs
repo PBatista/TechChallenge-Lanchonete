@@ -40,9 +40,8 @@ builder.Services.AddTransient<IMercadoPagoService, MercadoPagoService>();
 
 // Registro do IMongoClient
 builder.Services.AddSingleton<IMongoClient>(sp =>
-{
-    // var connectionString = "mongodb://localhost:27017";
-    var connectionString = "mongodb://mongo:27018";
+{      
+    var connectionString = Environment.GetEnvironmentVariable("MONGO_URI");
     return new MongoClient(connectionString);
 });
 

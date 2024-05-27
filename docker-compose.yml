@@ -7,8 +7,11 @@ services:
       context: .
       dockerfile: API/Dockerfile
     depends_on:
-      - mongo
-    entrypoint: ["./wait-for-it.sh", "mongodb-container:27018", "--", "npm", "start"]
+      - mongo    
+    environment:
+      MONGO_URI: mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@mongo:27018
+    ports:
+      - "8080:8080"
   mongo:
     image: mongo:latest
     container_name: mongodb-container
@@ -18,9 +21,9 @@ services:
     volumes:
       - mongodb-data:/data/db      
     environment:
-      MONGO_INITDB_DATABASE: lanchonete
-      # MONGO_INITDB_ROOT_USERNAME: admin
-      # MONGO_INITDB_ROOT_PASSWORD: admin123
+      MONGO_INITDB_DATABASE: ${MONGO_DATABASE}
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
 
 volumes:
   mongodb-data:
