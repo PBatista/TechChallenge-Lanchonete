@@ -16,7 +16,7 @@ Este projeto é uma aplicação para gestão de pedidos de uma lanchonete utiliz
 
 ## Liks uteis para entendimento do projeto, Documentação e Diagramas
 - [Notion - Anotações e entendimento do Projeto](https://www.notion.so/TECH-CHALLENGER-PEDRO-BATISTA-27057ee595924f90b3052224ab932058)
-- [Miro](https://miro.com/app/board/uXjVKMBlPDc=/)
+- [Miro - Diagrama completo contendo Brainstorming e Event Storming](https://miro.com/app/board/uXjVKMBlPDc=/)
 - [GitHub - Projeto do Tech Challenger](https://github.com/PBatista/TechChallenge-Lanchonete/tree/master)
 
 ## Estrutura do Projeto detalhada
