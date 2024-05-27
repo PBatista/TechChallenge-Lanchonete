@@ -89,11 +89,24 @@ Antes de rodar o projeto, certifique-se de que os seguintes pré-requisitos est�
    - Baixe e instale o .NET 8 SDK a partir do [site oficial da Microsoft](https://dotnet.microsoft.com/download/dotnet/8.0).
    - Verifique a instalação executando `dotnet --version` no terminal.
 
-4. **Clone o Repositório**
+## Executando o Projeto
+
+1. **Clone o Repositório**
    ```bash
    git clone https://github.com/PBatista/TechChallenge-Lanchonete.git
-   branch master
-   cd Lanchonete
-	
-5. **Acesse a URL para a documentação do Swagger**:
+   branch master   
+
+2. **Acesse a pasta do projeto**:
+   - cd Lanchonete
+
+3. **Inicie os serviços usando o Docker Compose**:
+   - docker-compose up
+
+4. **Acesse a url do Swagger**:
    - URL: http://localhost:55349/swagger/index.html
+
+## Parando o Projeto
+Para parar o projeto e os serviços em execução, você pode pressionar Ctrl + C no terminal onde o docker-compose up está sendo executado. Em seguida, você pode limpar os contêineres com:
+
+1. **Parar o projeto**
+   - docker-compose down
