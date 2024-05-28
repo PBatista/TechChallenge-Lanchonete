@@ -138,7 +138,7 @@ Para parar o projeto e os serviços em execução, você pode pressionar Ctrl + 
 	```
    
 2. **Cadastro de Clientes**
-    - Endpoint: POST /api/v1/clientes
+    * Endpoint: POST /api/v1/clientes
     - Exemplo de JSON:
       
     ```
@@ -150,7 +150,7 @@ Para parar o projeto e os serviços em execução, você pode pressionar Ctrl + 
 	```
     
 3. **Cadastro de Produtos**
-    - Endpoint: POST /api/v1/produtos
+    * Endpoint: POST /api/v1/produtos
     - Exemplo de JSON:
       
     ```
@@ -215,7 +215,7 @@ Para parar o projeto e os serviços em execução, você pode pressionar Ctrl + 
 	```
 
 4. **Realização de Pedidos**
-    - Endpoint: POST /api/v1/pedidos
+    * Endpoint: POST /api/v1/pedidos
     - Exemplo de JSON     
    * Pedido Se Identificando:
      
@@ -247,7 +247,7 @@ Para parar o projeto e os serviços em execução, você pode pressionar Ctrl + 
     ```
 
 5. **Realizar checkout**
-   - Endpoint: POST /api/v1/checkouts
+   * Endpoint: POST /api/v1/checkouts
    - Exemplo de JSON
      
     ```
@@ -257,7 +257,7 @@ Para parar o projeto e os serviços em execução, você pode pressionar Ctrl + 
     ```
 
 6. **Alterar o status do Pedido**
-   - Endpoint: PATCH /api/v1/pedidos/{NumPedido}/status
+   * Endpoint: PATCH /api/v1/pedidos/{NumPedido}/status
    - Exemplo de JSON
      
     ```
@@ -275,13 +275,7 @@ Para parar o projeto e os serviços em execução, você pode pressionar Ctrl + 
   	    "status": "FINALIZADO"
 	}
     ```
-
-7. **Listar os pedidos**
-   - Endpoint: GET /api/v1/pedidos
-
-8. **Listar os pedidos Por status**
-   - Endpoint: GET /api/v1/pedidos/listar-pedidos-status/{StatusPedido}
+    
+7. **Listar os pedidos Por status**
+   * Endpoint: GET /api/v1/pedidos/listar-pedidos-status/{StatusPedido}
 	- Exemplo de Status Pedido: EM PREPARO, PRONTO, FINALIZADO
-
-9. **Listar os pedidos em Andamento**
-   - Endpoint: GET /api/v1/pedidos/listar-pedidos-andamento
