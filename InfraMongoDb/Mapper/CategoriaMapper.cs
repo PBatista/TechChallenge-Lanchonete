@@ -7,10 +7,7 @@ namespace InfraMongoDb.Mapper
     {
         public static Categoria MapToEntity(CategoriaDTO dto)
         {
-            return new Categoria(dto.Nome)
-            {
-                // Id = dto.Id
-            };
+            return new Categoria(dto.Nome) { };
         }
     }
 }

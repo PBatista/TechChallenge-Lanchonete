@@ -1,6 +1,6 @@
 ﻿using Application.IUseCase;
 using Domain.Base;
-using Domain.Entities;
+using Domain.Entities.Enum;
 using Domain.Repositories;
 using MercadoPago.IService;
 
@@ -23,10 +23,10 @@ namespace Application.UseCase
         {
             try
             {
-                var pedido = await _pedidoRepository.ObterPedidoPorNumero(numPedido) ?? throw new DomainException($"Pedido não foi encontrado!");                
+                var pedido = await _pedidoRepository.ObterPedidoPorNumero(numPedido) ?? throw new DomainException($"Pedido não foi encontrado!");
 
                 // Verifica se o status do pedido é Diferente de Recebido, caso for não pode alterar
-                if (pedido.Status.Equals("AGUARDANDO PAGAMENTO"))
+                if (pedido.Status.Equals(StatusPedidoEnum.AGUARDANDO_PAGAMENTO.GetDescription()))
                 {
                     // Realiza o pagamento
                     var pagamento = await _mercadoPagoService.FakePagamento(pedido);
@@ -35,7 +35,7 @@ namespace Application.UseCase
                     if (pagamento.StatusPagamento == "APROVADO")
                     {
                         await _pagamentoRepository.SalvarPagamento(pagamento);
-                        var resultadoStatus = _pedidoRepository.AtualizarStatusPedido("RECEBIDO", numPedido);
+                        var resultadoStatus = _pedidoRepository.AtualizarStatusPedido(StatusPedidoEnum.RECEBIDO.GetDescription(), numPedido);
                     }
                     else
                     {
@@ -43,7 +43,6 @@ namespace Application.UseCase
                     }                                    
                 }
                 else throw new DomainException($"O pedido já está com o pagamento Aprovado!");
-
 
             }
             catch (Exception ex)

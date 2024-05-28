@@ -1,10 +1,9 @@
-﻿using Application.IUseCase;
+﻿using Application.ApplicationDTO;
+using Application.IUseCase;
 using Domain.Base;
 using Domain.Entities;
 using Domain.Repositories;
-using System.ComponentModel.DataAnnotations;
-using System.Drawing;
-using System.Drawing.Printing;
+using InfraMongoDb.DTO;
 
 namespace Application.UseCase
 {
@@ -90,7 +89,29 @@ namespace Application.UseCase
                 throw new DomainException($"Não foi possível obter o produto.", ex);
             }
         }
-        
+
+        public async Task<List<Produto>> ListarProdutos(PedidoApplicationDTO pedidoDTO)
+        {
+            try
+            {
+                List<Produto> listaProdutos = [];
+
+                foreach (var produtoDTO in pedidoDTO.Produtos)
+                {
+                    Produto prod = await _produtoRepository.ObterProdutosPorNome(produtoDTO.Nome)
+                        ?? throw new DomainException($"Produto '{produtoDTO.Nome}' não encontrado.");
+
+                    var produtosRepetidos = Enumerable.Range(0, produtoDTO.Quantidade).Select(_ => prod);
+                    listaProdutos.AddRange(produtosRepetidos);
+                }
+                return listaProdutos;
+            }
+            catch (Exception ex)
+            {
+                throw new DomainException($"Não foi possível obter o produto.", ex);
+            }
+        }
+
 
     }
 }

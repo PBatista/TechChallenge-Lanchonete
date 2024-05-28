@@ -2,18 +2,21 @@
 
 namespace Domain.Entities.Enum
 {
-    public enum PedidoStatusEnum
+    public enum StatusPedidoEnum
     {
-        [Description("Recebido")]
-        Recebido,
+        [Description("AGUARDANDO PAGAMENTO")]
+        AGUARDANDO_PAGAMENTO,
 
-        [Description("Em Preparação")]
-        Em_Preparo,
+        [Description("RECEBIDO")]
+        RECEBIDO,
 
-        [Description("Pronto")]
-        Pronto,
+        [Description("EM PREPARO")]
+        EM_PREPARO,
 
-        [Description("Finalizado")]
-        Finalizado
+        [Description("PRONTO")]
+        PRONTO,
+
+        [Description("FINALIZADO")]
+        FINALIZADO
     }
 }

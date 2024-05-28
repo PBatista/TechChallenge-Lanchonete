@@ -1,10 +1,5 @@
 ﻿using Domain.Entities;
 using InfraMongoDb.DTO;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace InfraMongoDb.Mapper
 {
@@ -12,10 +7,7 @@ namespace InfraMongoDb.Mapper
     {
         public static Cliente MapToEntity(ClienteDTO dto)
         {
-            return new Cliente(dto.Nome, dto.Cpf, dto.Email)
-            {
-                // Id = dto.Id
-            };
+            return new Cliente(dto.Nome, dto.Cpf, dto.Email) { };
         }
     }
 }

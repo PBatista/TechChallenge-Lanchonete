@@ -1,12 +1,11 @@
 ﻿using Application.IUseCase;
 using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/v1/produtos")]
     public class ProdutoController(ILogger<ProdutoController> logger, IProdutoUseCase produtoUseCase, ICategoriaUseCase categoriaUseCase) : ControllerBase
     {
         public readonly ILogger<ProdutoController> _logger = logger;
@@ -24,7 +23,7 @@ namespace API.Controllers
         public async Task<ActionResult> Post(Produto produto)
         {
             Produto produtoCadastrado = await _produtoUseCase.ObterProdutoPorNome(produto.Nome);
-            if (produtoCadastrado == null)
+            if (produtoCadastrado != null)
             {
                 return BadRequest($"O produto '{produto.Nome.Trim()}' já está cadastrado");
             }

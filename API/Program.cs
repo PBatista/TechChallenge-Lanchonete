@@ -1,11 +1,9 @@
 using Application.IUseCase;
 using Application.UseCase;
 using Domain.Repositories;
-using Infra.Sql;
 using InfraMongoDb.Repositories;
 using MercadoPago.IService;
 using MercadoPago.Service;
-using Microsoft.EntityFrameworkCore;
 using MongoDB.Driver;
 
 
@@ -19,10 +17,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// MongoDbConfiguration.Configure();
-builder.Services.AddDbContext<SqlDbContext>(options => options.UseSqlServer("Server=.\\SQLEXPRESS;Database=Lanchonete;Integrated Security=SSPI;TrustServerCertificate=True"));
-
-#region Services && Repositories
+#region Services && Repositories && DB Configurations 
 builder.Services.AddTransient<IProdutoUseCase, ProdutoUseCase>();
 builder.Services.AddTransient<IClienteUseCase, ClienteUseCase>();
 builder.Services.AddTransient<ICategoriaUseCase, CategoriaUseCase>();
