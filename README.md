@@ -89,11 +89,193 @@ Antes de rodar o projeto, certifique-se de que os seguintes pré-requisitos est�
    - Baixe e instale o .NET 8 SDK a partir do [site oficial da Microsoft](https://dotnet.microsoft.com/download/dotnet/8.0).
    - Verifique a instalação executando `dotnet --version` no terminal.
 
-4. **Clone o Repositório**
+## Executando o Projeto
+
+1. **Clone o Repositório**
    ```bash
    git clone https://github.com/PBatista/TechChallenge-Lanchonete.git
-   branch master
-   cd Lanchonete
-	
-5. **Acesse a URL para a documentação do Swagger**:
-   - URL: http://localhost:55349/swagger/index.html
+   branch master   
+
+2. **Acesse a pasta do projeto**:
+   - cd Lanchonete
+
+3. **Inicie os serviços usando o Docker Compose**:
+   - docker-compose up
+
+4. **Acesse a url do Swagger**:
+   - URL: http://localhost:8080/swagger/index.html
+
+## Parando o Projeto
+Para parar o projeto e os serviços em execução, você pode pressionar Ctrl + C no terminal onde o docker-compose up está sendo executado. Em seguida, você pode limpar os contêineres com:
+
+1. **Parar o projeto**
+   - docker-compose down
+
+## Exemplos de JSON para a API
+
+1. **Cadastro de Categorias**
+   - Endpoint: POST /api/v1/categorias
+   - Exemplo de JSON:
+	```
+	{
+ 	   "nome": "Lanche"
+	}
+	```
+	```
+	{
+	   "nome": "Acompanhamento"
+	}
+	```
+ 	```
+	{
+ 	   "nome": "Bebida"
+	}
+	```
+  	```
+	{
+ 	   "nome": "Sobremesa"
+	}
+	```
+   
+2. **Cadastro de Clientes**
+    * Endpoint: POST /api/v1/clientes
+    - Exemplo de JSON:
+      
+    ```
+	{
+      "nome": "Pedro Batista",
+      "cpf": "45012334503",
+      "email": "teste@gmail.com"
+    }
+	```
+    
+3. **Cadastro de Produtos**
+    * Endpoint: POST /api/v1/produtos
+    - Exemplo de JSON:
+      
+    ```
+	{
+      "nome": "X Bacon",
+      "categoria": "Lanche",
+      "preco": 13.50,
+      "descricao": "200g de hamburger, bacon, cebola, salada",
+      "imagens": [
+        "pasta/foto1.png",
+        "pasta/foto2.png",
+        "pasta/foto3.png"
+      ]
+    }
+	```
+    ```
+	{
+      "nome": "X Salada",
+      "categoria": "Lanche",
+      "preco": 11.50,
+      "descricao": "200g de hamburger, salada, tomate, cebola",
+      "imagens": [
+        "pasta/foto1.png",
+        "pasta/foto2.png",
+        "pasta/foto3.png"
+      ]
+    }
+	```
+    ```
+	{
+      "nome": "Batata Frita",
+      "categoria": "Acompanhamento",
+      "preco": 10.00,
+      "descricao": "400g de batata frita",
+      "imagens": [
+        "pasta/foto1.png",
+        "pasta/foto2.png"
+      ]
+    }
+	```
+    ```
+	{
+      "nome": "Coca Cola",
+      "categoria": "Bebida",
+      "preco": 6.00,
+      "descricao": "Refrigerante de cola",
+      "imagens": [
+        "pasta/foto1.png"
+      ]
+    }
+	```
+    ```
+	{
+      "nome": "Brownie,
+      "categoria": "Sobremesa",
+      "preco": 7.00,
+      "descricao": "Brownie é uma sobremesa de chocolate típico da culinária dos Estados Unidos",
+      "imagens": [
+        "pasta/foto1.png"
+      ]
+    }
+	```
+
+4. **Realização de Pedidos**
+    * Endpoint: POST /api/v1/pedidos
+    - Exemplo de JSON     
+   * Pedido Se Identificando:
+     
+    ```
+	{
+      "cpf": "45012334503",
+      "produtos": [
+        {
+          "nome": "X Bacon",
+          "quantidade": 1
+        }
+      ],
+      "descricao": "Retirar a salada"
+    }
+    ```
+    * Pedido não se identificando
+      
+    ```
+	{
+      "cpf": "",
+      "produtos": [
+        {
+          "nome": "X Salada",
+          "quantidade": 3
+        }
+      ],
+      "descricao": ""
+    }
+    ```
+
+5. **Realizar checkout**
+   * Endpoint: POST /api/v1/checkouts
+   - Exemplo de JSON
+     
+    ```
+	{
+  	    "numPedido": "001"
+	}
+    ```
+
+6. **Alterar o status do Pedido**
+   * Endpoint: PATCH /api/v1/pedidos/{NumPedido}/status
+   - Exemplo de JSON
+     
+    ```
+	{
+  	    "status": "EM PREPARO"
+	}
+    ```
+    ```
+	{
+  	    "status": "PRONTO"
+	}
+    ```
+    ```
+	{
+  	    "status": "FINALIZADO"
+	}
+    ```
+    
+7. **Listar os pedidos Por status**
+   * Endpoint: GET /api/v1/pedidos/listar-pedidos-status/{StatusPedido}
+	- Exemplo de Status Pedido: EM PREPARO, PRONTO, FINALIZADO
