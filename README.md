@@ -140,6 +140,7 @@ Para parar o projeto e os serviços em execução, você pode pressionar Ctrl + 
 2. **Cadastro de Clientes**
     - Endpoint: POST /api/v1/clientes
     - Exemplo de JSON:
+      
     ```
 	{
       "nome": "Pedro Batista",
@@ -147,9 +148,11 @@ Para parar o projeto e os serviços em execução, você pode pressionar Ctrl + 
       "email": "teste@gmail.com"
     }
 	```
+    
 3. **Cadastro de Produtos**
     - Endpoint: POST /api/v1/produtos
     - Exemplo de JSON:
+      
     ```
 	{
       "nome": "X Bacon",
@@ -210,10 +213,12 @@ Para parar o projeto e os serviços em execução, você pode pressionar Ctrl + 
       ]
     }
 	```
+
 4. **Realização de Pedidos**
     - Endpoint: POST /api/v1/pedidos
     - Exemplo de JSON     
    * Pedido Se Identificando:
+     
     ```
 	{
       "cpf": "45012334503",
@@ -226,7 +231,8 @@ Para parar o projeto e os serviços em execução, você pode pressionar Ctrl + 
       "descricao": "Retirar a salada"
     }
     ```
-    * Pedido não se identificando:
+    * Pedido não se identificando
+      
     ```
 	{
       "cpf": "",
@@ -239,9 +245,11 @@ Para parar o projeto e os serviços em execução, você pode pressionar Ctrl + 
       "descricao": ""
     }
     ```
+
 5. **Realizar checkout**
    - Endpoint: POST /api/v1/checkouts
    - Exemplo de JSON
+     
     ```
 	{
   	    "numPedido": "001"
@@ -251,6 +259,7 @@ Para parar o projeto e os serviços em execução, você pode pressionar Ctrl + 
 6. **Alterar o status do Pedido**
    - Endpoint: PATCH /api/v1/pedidos/{NumPedido}/status
    - Exemplo de JSON
+     
     ```
 	{
   	    "status": "EM PREPARO"
@@ -265,4 +274,14 @@ Para parar o projeto e os serviços em execução, você pode pressionar Ctrl + 
 	{
   	    "status": "FINALIZADO"
 	}
-    ```	
+    ```
+
+7. **Listar os pedidos**
+   - Endpoint: GET /api/v1/pedidos
+
+8. **Listar os pedidos Por status**
+   - Endpoint: GET /api/v1/pedidos/listar-pedidos-status/{StatusPedido}
+	- Exemplo de Status Pedido: EM PREPARO, PRONTO, FINALIZADO
+
+9. **Listar os pedidos em Andamento**
+   - Endpoint: GET /api/v1/pedidos/listar-pedidos-andamento
