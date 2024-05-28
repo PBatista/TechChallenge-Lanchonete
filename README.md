@@ -118,22 +118,22 @@ Para parar o projeto e os serviços em execução, você pode pressionar Ctrl + 
    - Exemplo de JSON:
 	```
 	{
-  		"nome": "Lanche"
+ 	   "nome": "Lanche"
 	}
 	```
 	```
 	{
-		"nome": "Acompanhamento"
+	   "nome": "Acompanhamento"
 	}
 	```
  	```
  	{
-  		"nome": "Bebida"
+           "nome": "Bebida"
 	}
 	```
 	```
  	{
-  		"nome": "Sobremesa"
+           "nome": "Sobremesa"
 	}
 	```	
 
