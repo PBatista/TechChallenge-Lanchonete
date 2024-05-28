@@ -110,3 +110,29 @@ Para parar o projeto e os serviços em execução, você pode pressionar Ctrl + 
 
 1. **Parar o projeto**
    - docker-compose down
+
+## Exemplos de JSON para a API
+
+1. **Cadastro de Categorias**
+   - Endpoint: POST /api/v1/categorias
+   - Exemplo de JSON:
+	```
+	{
+  		"nome": "Lanche"
+	}
+
+	{
+  		"nome": "Acompanhamento"
+	}
+
+ 	{
+  		"nome": "Bebida"
+	}
+ 	
+ 	{
+  		"nome": "Sobremesa"
+	}
+ 	```
+
+
+
