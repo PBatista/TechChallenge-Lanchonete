@@ -212,8 +212,8 @@ Para parar o projeto e os serviços em execução, você pode pressionar Ctrl + 
 	```
 4. **Realização de Pedidos**
     - Endpoint: POST /api/v1/pedidos
-    - Exemplo de JSON:      
-    - Pedido Se Identificando:
+    - Exemplo de JSON     
+   * Pedido Se Identificando:
     ```
 	{
       "cpf": "45012334503",
@@ -226,7 +226,7 @@ Para parar o projeto e os serviços em execução, você pode pressionar Ctrl + 
       "descricao": "Retirar a salada"
     }
     ```
-    - Pedido não se identificando:
+    * Pedido não se identificando:
     ```
 	{
       "cpf": "",
@@ -239,7 +239,12 @@ Para parar o projeto e os serviços em execução, você pode pressionar Ctrl + 
       "descricao": ""
     }
     ```
-
-
-
+4. **Realizar checkout**
+   - Endpoint: POST /api/v1/checkouts
+   - Exemplo de JSON
+    ```
+	{
+  	"numPedido": "string"
+	}
+    ```	
 
