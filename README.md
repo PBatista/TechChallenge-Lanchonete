@@ -211,7 +211,7 @@ Para parar o projeto e os serviços em execução, você pode pressionar Ctrl + 
     }
 	```
 4. **Realização de Pedidos**
-     - Endpoint: POST /api/v1/produtos
+     - Endpoint: POST /api/v1/pedidos
      - Exemplo de JSON:
     ```
 	{
@@ -236,7 +236,7 @@ Para parar o projeto e os serviços em execução, você pode pressionar Ctrl + 
       ],
       "descricao": ""
     }
-	```
+    ```
 
 
 
