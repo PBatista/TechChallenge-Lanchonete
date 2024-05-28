@@ -127,15 +127,117 @@ Para parar o projeto e os serviços em execução, você pode pressionar Ctrl + 
 	}
 	```
  	```
- 	{
-           "nome": "Bebida"
+	{
+ 	   "nome": "Bebida"
 	}
 	```
-	```
- 	{
-           "nome": "Sobremesa"
+  	```
+	{
+ 	   "nome": "Sobremesa"
 	}
-	```	
+	```
+   
+2. **Cadastro de Clientes**
+    - Endpoint: POST /api/v1/clientes
+    - Exemplo de JSON:
+    ```
+	{
+      "nome": "Pedro Batista",
+      "cpf": "45012334503",
+      "email": "teste@gmail.com"
+    }
+	```
+3. **Cadastro de Produtos**
+    - Endpoint: POST /api/v1/produtos
+    - Exemplo de JSON:
+    ```
+	{
+      "nome": "X Bacon",
+      "categoria": "Lanche",
+      "preco": 13.50,
+      "descricao": "200g de hamburger, bacon, cebola, salada",
+      "imagens": [
+        "pasta/foto1.png",
+        "pasta/foto2.png",
+        "pasta/foto3.png"
+      ]
+    }
+	```
+    ```
+	{
+      "nome": "X Salada",
+      "categoria": "Lanche",
+      "preco": 11.50,
+      "descricao": "200g de hamburger, salada, tomate, cebola",
+      "imagens": [
+        "pasta/foto1.png",
+        "pasta/foto2.png",
+        "pasta/foto3.png"
+      ]
+    }
+	```
+    ```
+	{
+      "nome": "Batata Frita",
+      "categoria": "Acompanhamento",
+      "preco": 10.00,
+      "descricao": "400g de batata frita",
+      "imagens": [
+        "pasta/foto1.png",
+        "pasta/foto2.png"
+      ]
+    }
+	```
+    ```
+	{
+      "nome": "Coca Cola",
+      "categoria": "Bebida",
+      "preco": 6.00,
+      "descricao": "Refrigerante de cola",
+      "imagens": [
+        "pasta/foto1.png"
+      ]
+    }
+	```
+    ```
+	{
+      "nome": "Brownie,
+      "categoria": "Sobremesa",
+      "preco": 7.00,
+      "descricao": "Brownie é uma sobremesa de chocolate típico da culinária dos Estados Unidos",
+      "imagens": [
+        "pasta/foto1.png"
+      ]
+    }
+	```
+4. **Realização de Pedidos**
+     - Endpoint: POST /api/v1/produtos
+     - Exemplo de JSON:
+    ```
+	{
+      "cpf": "45012334503",
+      "produtos": [
+        {
+          "nome": "X Bacon",
+          "quantidade": 1
+        }
+      ],
+      "descricao": "Retirar a salada"
+    }
+	```
+    ```
+	{
+      "cpf": "",
+      "produtos": [
+        {
+          "nome": "X Salada",
+          "quantidade": 3
+        }
+      ],
+      "descricao": ""
+    }
+	```
+
 
 
 
