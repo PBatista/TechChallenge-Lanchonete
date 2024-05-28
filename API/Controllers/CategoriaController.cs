@@ -1,12 +1,11 @@
 ﻿using Application.IUseCase;
-using Application.UseCase;
 using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/v1/categorias")]
     public class CategoriaController(ILogger<CategoriaController> logger, ICategoriaUseCase categoriaUseCase) : ControllerBase
     {
         public readonly ILogger<CategoriaController> _logger = logger;

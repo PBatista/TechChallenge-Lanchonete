@@ -59,8 +59,7 @@ namespace InfraMongoDb.Repositories
             var produtos = new List<Produto>();
 
             foreach (var document in produtosDocuments)
-            {
-                //document.Remove("_id");                          
+            {                          
                 var produtoDTO = BsonSerializer.Deserialize<ProdutoDTO>(document);
 
                 Produto produto = ProdutoMapper.MapToEntity(produtoDTO);

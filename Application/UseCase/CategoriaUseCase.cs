@@ -2,7 +2,6 @@
 using Domain.Base;
 using Domain.Entities;
 using Domain.Repositories;
-using InfraMongoDb.Repositories;
 
 namespace Application.UseCase
 {
@@ -28,16 +27,16 @@ namespace Application.UseCase
             }
             catch (Exception ex)
             {
-                throw new DomainException($"Não foi possível validar a categoria '{categoria}'.", ex);                
-            }           
+                throw new DomainException($"Não foi possível validar a categoria '{categoria}'.", ex);
+            }
         }
 
         public async Task SalvarCategoria(Categoria categoria)
         {
             try
             {
-                var clienteExistente = await _categoriaRepository.ObterCategoriaPorNome(categoria.Nome);
-                if (clienteExistente == null) await _categoriaRepository.SalvarCategoria(categoria);
+                var categoriaExistente = await _categoriaRepository.ObterCategoriaPorNome(categoria.Nome);
+                if (categoriaExistente == null) await _categoriaRepository.SalvarCategoria(categoria);
                 else throw new DomainException($"Não foi possível salvar, pois a categoria '{categoria.Nome}' já está cadastrada!");
             }
             catch (Exception ex)
@@ -50,7 +49,9 @@ namespace Application.UseCase
         {
             try
             {
-                await _categoriaRepository.EditarCategoria(nome, categoria);
+                var categoriaExistente = await _categoriaRepository.ObterCategoriaPorNome(categoria.Nome);
+                if (categoriaExistente == null) await _categoriaRepository.EditarCategoria(nome, categoria);
+                else throw new DomainException($"Não foi possível editar, pois a categoria '{categoria.Nome}' já está cadastrada!");
             }
             catch (Exception ex)
             {

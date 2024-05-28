@@ -7,10 +7,7 @@ namespace InfraMongoDb.Mapper
     {
         public static Produto MapToEntity(ProdutoDTO dto)
         {
-            return new Produto(dto.Nome, dto.Categoria, dto.Preco, dto.Descricao, dto.Imagens)
-            {
-                // Id = dto.Id.ToString()
-            };
+            return new Produto(dto.Nome, dto.Categoria, dto.Preco, dto.Descricao, dto.Imagens) { };
         }
     }
 }

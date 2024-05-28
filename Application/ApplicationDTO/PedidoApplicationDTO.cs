@@ -1,7 +1,4 @@
-﻿using Domain.Entities;
-using InfraMongoDb.DTO;
-
-namespace Application.ApplicationDTO
+﻿namespace Application.ApplicationDTO
 {
     public class PedidoApplicationDTO
     {

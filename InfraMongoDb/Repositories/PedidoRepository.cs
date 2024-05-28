@@ -1,4 +1,6 @@
-﻿using Domain.Entities;
+﻿using Domain.Base;
+using Domain.Entities;
+using Domain.Entities.Enum;
 using Domain.Repositories;
 using InfraMongoDb.DTO;
 using InfraMongoDb.Mapper;
@@ -34,10 +36,8 @@ namespace InfraMongoDb.Repositories
             var pedidos = new List<Pedido>();
 
             foreach (var document in pedidoDocuments)
-            {
-                // document.Remove("_id");                          
+            {                
                 var pedidoDTO = BsonSerializer.Deserialize<PedidoDTO>(document);
-
                 Pedido pedido = PedidoMapper.MapToEntity(pedidoDTO);
                 pedidos.Add(pedido);
             }
@@ -48,8 +48,8 @@ namespace InfraMongoDb.Repositories
         public async Task<List<Pedido>> ListarPedidosEmAndamento()
         {
                    
-            var filterFinalizado = Builders<BsonDocument>.Filter.Ne("Status", "FINALIZADO");
-            var filterNull = Builders<BsonDocument>.Filter.Ne("Status", "AGUARDANDO PAGAMENTO");
+            var filterFinalizado = Builders<BsonDocument>.Filter.Ne("Status", StatusPedidoEnum.FINALIZADO.GetDescription());
+            var filterNull = Builders<BsonDocument>.Filter.Ne("Status", StatusPedidoEnum.AGUARDANDO_PAGAMENTO.GetDescription());
             var combinedFilter = Builders<BsonDocument>.Filter.And(filterFinalizado, filterNull);
 
             var pedidoDocuments = await _pedidoCollection.Find(combinedFilter).ToListAsync();

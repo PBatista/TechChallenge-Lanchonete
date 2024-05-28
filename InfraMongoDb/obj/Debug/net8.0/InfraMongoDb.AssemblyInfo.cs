@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("InfraMongoDb")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a8aa046004648753b123ff8bfa87762ce77ac4ac")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2a07a5b8beef21b76ec6712123d6e0b6ec9fadd8")]
 [assembly: System.Reflection.AssemblyProductAttribute("InfraMongoDb")]
 [assembly: System.Reflection.AssemblyTitleAttribute("InfraMongoDb")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -2,24 +2,24 @@
 using Application.IUseCase;
 using Domain.Base;
 using Domain.Entities;
+using Domain.Entities.Enum;
 using Domain.Repositories;
-using InfraMongoDb.DTO;
-using InfraMongoDb.Repositories;
-using System.Reflection.Metadata.Ecma335;
+
 
 namespace Application.UseCase
 {
     public class PedidoUseCase : IPedidoUseCase
     {
         private readonly IPedidoRepository _pedidoRepository;
-        private readonly IClienteRepository _clienteRepository;
-        private readonly IProdutoRepository _produtoRepository;
+        private readonly IClienteUseCase _clienteUseCase;
+        private readonly IProdutoUseCase _produtoUseCase;
+        readonly string NUMERO_DO_PEDIDO_VAZIO = string.Empty;
 
-        public PedidoUseCase(IPedidoRepository pedidoRepository, IClienteRepository clienteRepository, IProdutoRepository produtoRepository, ICategoriaUseCase categoriaUseCase)
+        public PedidoUseCase(IPedidoRepository pedidoRepository, IClienteUseCase clienteUseCase, IProdutoUseCase produtoUseCase)
         {
             _pedidoRepository = pedidoRepository;
-            _clienteRepository = clienteRepository;
-            _produtoRepository = produtoRepository;
+            _clienteUseCase = clienteUseCase;
+            _produtoUseCase = produtoUseCase;
         }
 
         public async Task<List<Pedido>> ListarPedidos()
@@ -52,27 +52,18 @@ namespace Application.UseCase
             try
             {
                 Cliente? cliente = null;
-                if (pedidoDTO.Cpf != null && pedidoDTO.Cpf.Trim() != "") cliente = await _clienteRepository.ObterClientePorCpf(pedidoDTO.Cpf);
+
+                if (!string.IsNullOrWhiteSpace(pedidoDTO.Cpf))
+                    cliente = await _clienteUseCase.ObterClientePorCpf(pedidoDTO.Cpf);
                 else
-                {
-                    if (string.IsNullOrWhiteSpace(pedidoDTO.Descricao)) pedidoDTO.Descricao = "Obs: Cliente optou por não se identificar";
-                    else pedidoDTO.Descricao += Environment.NewLine + "Obs: Cliente optou por não se identificar";
-                }
+                    pedidoDTO.Descricao = string.IsNullOrWhiteSpace(pedidoDTO.Descricao)
+                        ? "Obs: Cliente optou por não se identificar"
+                        : $"{pedidoDTO.Descricao}{Environment.NewLine}Obs: Cliente optou por não se identificar";
 
-                List<Produto> listaProdutos = [];
-
-                foreach (var produtoDTO in pedidoDTO.Produtos)
-                {
-                    Produto prod = await _produtoRepository.ObterProdutosPorNome(produtoDTO.Nome)
-                        ?? throw new DomainException($"Produto '{produtoDTO.Nome}' não encontrado.");
-
-                    var produtosRepetidos = Enumerable.Range(0, produtoDTO.Quantidade).Select(_ => prod);
-                    listaProdutos.AddRange(produtosRepetidos);
-                }
-
+                List<Produto> listaProdutos = await _produtoUseCase.ListarProdutos(pedidoDTO);
                 double valorTotal = listaProdutos.Sum(prod => prod.Preco);
 
-                Pedido pedido = new("", listaProdutos, cliente, valorTotal, "AGUARDANDO PAGAMENTO", pedidoDTO.Descricao, DateTime.Now);
+                Pedido pedido = new(NUMERO_DO_PEDIDO_VAZIO, listaProdutos, cliente, valorTotal, StatusPedidoEnum.AGUARDANDO_PAGAMENTO.GetDescription(), pedidoDTO.Descricao, DateTime.Now);
                 return await _pedidoRepository.SalvarPedido(pedido);
             }
             catch (Exception ex)
@@ -118,18 +109,30 @@ namespace Application.UseCase
         }
 
         public async Task<bool> ValidarStatusPedido(string status, string numPedido)
-        {            
-            if (status == "RECEBIDO" || status == "EM PREPARO" || status == "PRONTO" || status == "FINALIZADO")
+        {
+            try
             {
+                var listaStatusValido = Enum.GetValues(typeof(StatusPedidoEnum))
+                          .Cast<StatusPedidoEnum>()
+                          .Select(e => e.GetDescription());
+
+                if (!listaStatusValido.Contains(status))
+                    throw new DomainException($"O status '{status}' não é válido para o pedido número '{numPedido}'.");
+
                 var pedido = await _pedidoRepository.ObterPedidoPorNumero(numPedido) ?? throw new DomainException($"Não foi possível encontrar o pedido número '{numPedido}'.");
-                if (pedido != null && (pedido.Status.Equals("AGUARDANDO PAGAMENTO") || pedido.Status.Equals("FINALIZADO"))) 
-                    throw new DomainException($"Não foi possível atualizar o pedido número '{numPedido}' com o status {status}, pois o pedido está com o status {pedido.Status}.");
-                if (pedido != null && pedido.Status.Equals(status)) 
-                    throw new DomainException($"Não foi possível atualizar o pedido número '{numPedido}' com o status {status}, pois o status já está como {pedido.Status}.");               
+
+                if (pedido.Status == StatusPedidoEnum.AGUARDANDO_PAGAMENTO.GetDescription() || pedido.Status == StatusPedidoEnum.FINALIZADO.GetDescription())
+                    throw new DomainException($"Não foi possível atualizar o pedido número '{numPedido}' com o status '{status}', pois o pedido está com o status '{pedido.Status}'.");
+
+                if (pedido.Status == status)
+                    throw new DomainException($"Não foi possível atualizar o pedido número '{numPedido}' com o status '{status}', pois o status já está como '{pedido.Status}'.");
 
                 return true;
             }
-            else throw new DomainException($"Não foi possível atualizar o pedido número '{numPedido}' com o status {status}.");
+            catch (Exception ex)
+            {
+                throw new DomainException($"O status '{status}' não é válido para o pedido número '{numPedido}'.", ex);
+            }
         }
 
     }

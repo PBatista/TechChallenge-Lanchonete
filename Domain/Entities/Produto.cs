@@ -1,5 +1,4 @@
 ﻿using Domain.Base;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Domain.Entities
 {
@@ -9,10 +8,10 @@ namespace Domain.Entities
         public string Categoria { get; private set; }
         public double Preco { get; private set; } 
         public string Descricao { get; private set; }
-        public string Imagens { get; private set; }
+        public List<string> Imagens { get; private set; }
         
 
-        public Produto(string nome, string categoria, double preco, string descricao, string imagens) 
+        public Produto(string nome, string categoria, double preco, string descricao, List<string> imagens) 
         { 
             Nome = nome;
             Categoria = categoria.ToUpper();
