@@ -244,7 +244,7 @@ Para parar o projeto e os serviços em execução, você pode pressionar Ctrl + 
    - Exemplo de JSON
     ```
 	{
-  	"numPedido": "string"
+  	    "numPedido": "001"
 	}
     ```	
 
