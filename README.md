@@ -239,12 +239,30 @@ Para parar o projeto e os serviços em execução, você pode pressionar Ctrl + 
       "descricao": ""
     }
     ```
-4. **Realizar checkout**
+5. **Realizar checkout**
    - Endpoint: POST /api/v1/checkouts
    - Exemplo de JSON
     ```
 	{
   	    "numPedido": "001"
 	}
-    ```	
+    ```
 
+6. **Alterar o status do Pedido**
+   - Endpoint: PATCH /api/v1/pedidos/{NumPedido}/status
+   - Exemplo de JSON
+    ```
+	{
+  	    "status": "EM PREPARO"
+	}
+    ```
+    ```
+	{
+  	    "status": "PRONTO"
+	}
+    ```
+    ```
+	{
+  	    "status": "FINALIZADO"
+	}
+    ```	
