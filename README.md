@@ -120,19 +120,36 @@ Para parar o projeto e os serviços em execução, você pode pressionar Ctrl + 
 	{
   		"nome": "Lanche"
 	}
-
-	{
+	```
+	```
   		"nome": "Acompanhamento"
 	}
-
+ 	```
+	```
+	{
+		"nome": "Acompanhamento"
+	}
+	```
+ 	```
+ 	{
+  		"nome": "Acompanhamento"
+	}
+	```
+	```
  	{
   		"nome": "Bebida"
 	}
- 	
+	```
+	```	
+ 	{
+  		"nome": "Bebida"
+	}
+ 	```
+	```
  	{
   		"nome": "Sobremesa"
 	}
- 	```
+ 	```	
 
 
 
