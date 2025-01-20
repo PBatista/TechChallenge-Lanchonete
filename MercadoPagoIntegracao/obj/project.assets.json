@@ -603,11 +603,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\TECH_CHALLENGER\\Projeto\\Lanchonete\\MercadoPagoIntegracao\\MercadoPagoIntegracao.csproj",
+      "projectUniqueName": "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\2025\\TechChallenge-Lanchonete\\MercadoPagoIntegracao\\MercadoPagoIntegracao.csproj",
       "projectName": "MercadoPagoIntegracao",
-      "projectPath": "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\TECH_CHALLENGER\\Projeto\\Lanchonete\\MercadoPagoIntegracao\\MercadoPagoIntegracao.csproj",
+      "projectPath": "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\2025\\TechChallenge-Lanchonete\\MercadoPagoIntegracao\\MercadoPagoIntegracao.csproj",
       "packagesPath": "C:\\Users\\peeeh\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\TECH_CHALLENGER\\Projeto\\Lanchonete\\MercadoPagoIntegracao\\obj\\",
+      "outputPath": "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\2025\\TechChallenge-Lanchonete\\MercadoPagoIntegracao\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -628,8 +628,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\TECH_CHALLENGER\\Projeto\\Lanchonete\\Domain\\Domain.csproj": {
-              "projectPath": "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\TECH_CHALLENGER\\Projeto\\Lanchonete\\Domain\\Domain.csproj"
+            "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\2025\\TechChallenge-Lanchonete\\Domain\\Domain.csproj": {
+              "projectPath": "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\2025\\TechChallenge-Lanchonete\\Domain\\Domain.csproj"
             }
           }
         }

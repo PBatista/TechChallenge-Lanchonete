@@ -8,6 +8,6 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = InfraMongoDb
-build_property.ProjectDir = C:\Users\peeeh\OneDrive\Documentos\FIAP\TECH_CHALLENGER\Projeto\Lanchonete\InfraMongoDb\
+build_property.ProjectDir = C:\Users\peeeh\OneDrive\Documentos\FIAP\2025\TechChallenge-Lanchonete\InfraMongoDb\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 

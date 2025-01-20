@@ -16,8 +16,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Application\Application.csproj" />
     <ProjectReference Include="..\Domain\Domain.csproj" />
-    <ProjectReference Include="..\InfraMongoDb\InfraMongoDb.csproj" />
-    <ProjectReference Include="..\Infra\Infra.csproj" />
+    <ProjectReference Include="..\InfraMongoDb\InfraMongoDb.csproj" />    
   </ItemGroup>
 
 </Project>

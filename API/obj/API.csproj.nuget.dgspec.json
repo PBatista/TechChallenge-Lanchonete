@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\TECH_CHALLENGER\\Projeto\\Lanchonete\\API\\API.csproj": {}
+    "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\2025\\TechChallenge-Lanchonete\\API\\API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\TECH_CHALLENGER\\Projeto\\Lanchonete\\API\\API.csproj": {
+    "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\2025\\TechChallenge-Lanchonete\\API\\API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\TECH_CHALLENGER\\Projeto\\Lanchonete\\API\\API.csproj",
+        "projectUniqueName": "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\2025\\TechChallenge-Lanchonete\\API\\API.csproj",
         "projectName": "API",
-        "projectPath": "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\TECH_CHALLENGER\\Projeto\\Lanchonete\\API\\API.csproj",
+        "projectPath": "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\2025\\TechChallenge-Lanchonete\\API\\API.csproj",
         "packagesPath": "C:\\Users\\peeeh\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\TECH_CHALLENGER\\Projeto\\Lanchonete\\API\\obj\\",
+        "outputPath": "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\2025\\TechChallenge-Lanchonete\\API\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -32,17 +32,14 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\TECH_CHALLENGER\\Projeto\\Lanchonete\\Application\\Application.csproj": {
-                "projectPath": "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\TECH_CHALLENGER\\Projeto\\Lanchonete\\Application\\Application.csproj"
+              "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\2025\\TechChallenge-Lanchonete\\Application\\Application.csproj": {
+                "projectPath": "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\2025\\TechChallenge-Lanchonete\\Application\\Application.csproj"
               },
-              "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\TECH_CHALLENGER\\Projeto\\Lanchonete\\Domain\\Domain.csproj": {
-                "projectPath": "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\TECH_CHALLENGER\\Projeto\\Lanchonete\\Domain\\Domain.csproj"
+              "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\2025\\TechChallenge-Lanchonete\\Domain\\Domain.csproj": {
+                "projectPath": "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\2025\\TechChallenge-Lanchonete\\Domain\\Domain.csproj"
               },
-              "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\TECH_CHALLENGER\\Projeto\\Lanchonete\\InfraMongoDb\\InfraMongoDb.csproj": {
-                "projectPath": "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\TECH_CHALLENGER\\Projeto\\Lanchonete\\InfraMongoDb\\InfraMongoDb.csproj"
-              },
-              "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\TECH_CHALLENGER\\Projeto\\Lanchonete\\Infra\\Infra.csproj": {
-                "projectPath": "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\TECH_CHALLENGER\\Projeto\\Lanchonete\\Infra\\Infra.csproj"
+              "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\2025\\TechChallenge-Lanchonete\\InfraMongoDb\\InfraMongoDb.csproj": {
+                "projectPath": "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\2025\\TechChallenge-Lanchonete\\InfraMongoDb\\InfraMongoDb.csproj"
               }
             }
           }
@@ -94,14 +91,14 @@
         }
       }
     },
-    "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\TECH_CHALLENGER\\Projeto\\Lanchonete\\Application\\Application.csproj": {
+    "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\2025\\TechChallenge-Lanchonete\\Application\\Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\TECH_CHALLENGER\\Projeto\\Lanchonete\\Application\\Application.csproj",
+        "projectUniqueName": "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\2025\\TechChallenge-Lanchonete\\Application\\Application.csproj",
         "projectName": "Application",
-        "projectPath": "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\TECH_CHALLENGER\\Projeto\\Lanchonete\\Application\\Application.csproj",
+        "projectPath": "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\2025\\TechChallenge-Lanchonete\\Application\\Application.csproj",
         "packagesPath": "C:\\Users\\peeeh\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\TECH_CHALLENGER\\Projeto\\Lanchonete\\Application\\obj\\",
+        "outputPath": "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\2025\\TechChallenge-Lanchonete\\Application\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -122,14 +119,14 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\TECH_CHALLENGER\\Projeto\\Lanchonete\\Domain\\Domain.csproj": {
-                "projectPath": "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\TECH_CHALLENGER\\Projeto\\Lanchonete\\Domain\\Domain.csproj"
+              "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\2025\\TechChallenge-Lanchonete\\Domain\\Domain.csproj": {
+                "projectPath": "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\2025\\TechChallenge-Lanchonete\\Domain\\Domain.csproj"
               },
-              "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\TECH_CHALLENGER\\Projeto\\Lanchonete\\InfraMongoDb\\InfraMongoDb.csproj": {
-                "projectPath": "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\TECH_CHALLENGER\\Projeto\\Lanchonete\\InfraMongoDb\\InfraMongoDb.csproj"
+              "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\2025\\TechChallenge-Lanchonete\\InfraMongoDb\\InfraMongoDb.csproj": {
+                "projectPath": "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\2025\\TechChallenge-Lanchonete\\InfraMongoDb\\InfraMongoDb.csproj"
               },
-              "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\TECH_CHALLENGER\\Projeto\\Lanchonete\\MercadoPagoIntegracao\\MercadoPagoIntegracao.csproj": {
-                "projectPath": "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\TECH_CHALLENGER\\Projeto\\Lanchonete\\MercadoPagoIntegracao\\MercadoPagoIntegracao.csproj"
+              "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\2025\\TechChallenge-Lanchonete\\MercadoPagoIntegracao\\MercadoPagoIntegracao.csproj": {
+                "projectPath": "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\2025\\TechChallenge-Lanchonete\\MercadoPagoIntegracao\\MercadoPagoIntegracao.csproj"
               }
             }
           }
@@ -168,14 +165,14 @@
         }
       }
     },
-    "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\TECH_CHALLENGER\\Projeto\\Lanchonete\\Domain\\Domain.csproj": {
+    "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\2025\\TechChallenge-Lanchonete\\Domain\\Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\TECH_CHALLENGER\\Projeto\\Lanchonete\\Domain\\Domain.csproj",
+        "projectUniqueName": "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\2025\\TechChallenge-Lanchonete\\Domain\\Domain.csproj",
         "projectName": "Domain",
-        "projectPath": "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\TECH_CHALLENGER\\Projeto\\Lanchonete\\Domain\\Domain.csproj",
+        "projectPath": "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\2025\\TechChallenge-Lanchonete\\Domain\\Domain.csproj",
         "packagesPath": "C:\\Users\\peeeh\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\TECH_CHALLENGER\\Projeto\\Lanchonete\\Domain\\obj\\",
+        "outputPath": "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\2025\\TechChallenge-Lanchonete\\Domain\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -232,14 +229,14 @@
         }
       }
     },
-    "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\TECH_CHALLENGER\\Projeto\\Lanchonete\\InfraMongoDb\\InfraMongoDb.csproj": {
+    "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\2025\\TechChallenge-Lanchonete\\InfraMongoDb\\InfraMongoDb.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\TECH_CHALLENGER\\Projeto\\Lanchonete\\InfraMongoDb\\InfraMongoDb.csproj",
+        "projectUniqueName": "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\2025\\TechChallenge-Lanchonete\\InfraMongoDb\\InfraMongoDb.csproj",
         "projectName": "InfraMongoDb",
-        "projectPath": "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\TECH_CHALLENGER\\Projeto\\Lanchonete\\InfraMongoDb\\InfraMongoDb.csproj",
+        "projectPath": "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\2025\\TechChallenge-Lanchonete\\InfraMongoDb\\InfraMongoDb.csproj",
         "packagesPath": "C:\\Users\\peeeh\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\TECH_CHALLENGER\\Projeto\\Lanchonete\\InfraMongoDb\\obj\\",
+        "outputPath": "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\2025\\TechChallenge-Lanchonete\\InfraMongoDb\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -260,8 +257,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\TECH_CHALLENGER\\Projeto\\Lanchonete\\Domain\\Domain.csproj": {
-                "projectPath": "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\TECH_CHALLENGER\\Projeto\\Lanchonete\\Domain\\Domain.csproj"
+              "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\2025\\TechChallenge-Lanchonete\\Domain\\Domain.csproj": {
+                "projectPath": "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\2025\\TechChallenge-Lanchonete\\Domain\\Domain.csproj"
               }
             }
           }
@@ -310,94 +307,14 @@
         }
       }
     },
-    "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\TECH_CHALLENGER\\Projeto\\Lanchonete\\Infra\\Infra.csproj": {
+    "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\2025\\TechChallenge-Lanchonete\\MercadoPagoIntegracao\\MercadoPagoIntegracao.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\TECH_CHALLENGER\\Projeto\\Lanchonete\\Infra\\Infra.csproj",
-        "projectName": "Infra",
-        "projectPath": "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\TECH_CHALLENGER\\Projeto\\Lanchonete\\Infra\\Infra.csproj",
-        "packagesPath": "C:\\Users\\peeeh\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\TECH_CHALLENGER\\Projeto\\Lanchonete\\Infra\\obj\\",
-        "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
-        "configFilePaths": [
-          "C:\\Users\\peeeh\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
-        ],
-        "originalTargetFrameworks": [
-          "net8.0"
-        ],
-        "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {}
-        },
-        "frameworks": {
-          "net8.0": {
-            "targetAlias": "net8.0",
-            "projectReferences": {
-              "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\TECH_CHALLENGER\\Projeto\\Lanchonete\\Domain\\Domain.csproj": {
-                "projectPath": "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\TECH_CHALLENGER\\Projeto\\Lanchonete\\Domain\\Domain.csproj"
-              }
-            }
-          }
-        },
-        "warningProperties": {
-          "warnAsError": [
-            "NU1605"
-          ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
-        }
-      },
-      "frameworks": {
-        "net8.0": {
-          "targetAlias": "net8.0",
-          "dependencies": {
-            "Microsoft.EntityFrameworkCore.Design": {
-              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
-              "suppressParent": "All",
-              "target": "Package",
-              "version": "[8.0.4, )"
-            },
-            "Microsoft.EntityFrameworkCore.SqlServer": {
-              "target": "Package",
-              "version": "[8.0.4, )"
-            }
-          },
-          "imports": [
-            "net461",
-            "net462",
-            "net47",
-            "net471",
-            "net472",
-            "net48",
-            "net481"
-          ],
-          "assetTargetFallback": true,
-          "warn": true,
-          "frameworkReferences": {
-            "Microsoft.NETCore.App": {
-              "privateAssets": "all"
-            }
-          },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
-        }
-      }
-    },
-    "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\TECH_CHALLENGER\\Projeto\\Lanchonete\\MercadoPagoIntegracao\\MercadoPagoIntegracao.csproj": {
-      "version": "1.0.0",
-      "restore": {
-        "projectUniqueName": "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\TECH_CHALLENGER\\Projeto\\Lanchonete\\MercadoPagoIntegracao\\MercadoPagoIntegracao.csproj",
+        "projectUniqueName": "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\2025\\TechChallenge-Lanchonete\\MercadoPagoIntegracao\\MercadoPagoIntegracao.csproj",
         "projectName": "MercadoPagoIntegracao",
-        "projectPath": "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\TECH_CHALLENGER\\Projeto\\Lanchonete\\MercadoPagoIntegracao\\MercadoPagoIntegracao.csproj",
+        "projectPath": "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\2025\\TechChallenge-Lanchonete\\MercadoPagoIntegracao\\MercadoPagoIntegracao.csproj",
         "packagesPath": "C:\\Users\\peeeh\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\TECH_CHALLENGER\\Projeto\\Lanchonete\\MercadoPagoIntegracao\\obj\\",
+        "outputPath": "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\2025\\TechChallenge-Lanchonete\\MercadoPagoIntegracao\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -418,8 +335,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\TECH_CHALLENGER\\Projeto\\Lanchonete\\Domain\\Domain.csproj": {
-                "projectPath": "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\TECH_CHALLENGER\\Projeto\\Lanchonete\\Domain\\Domain.csproj"
+              "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\2025\\TechChallenge-Lanchonete\\Domain\\Domain.csproj": {
+                "projectPath": "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\2025\\TechChallenge-Lanchonete\\Domain\\Domain.csproj"
               }
             }
           }

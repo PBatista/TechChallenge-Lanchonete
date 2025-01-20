@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "98jqOzpnwWijQcwxLZ0XqKw1NHtZhcrl7k8Cs53j0uS/GC8xUqBWHeR6tjfAfbnUUhnqRuQPlTjlcjyabzSK6Q==",
+  "dgSpecHash": "HuMJwvwqNnWVvwA5OTDuVrrVqERbdlOn51g2xQ70L8TXpiz6XjdutkyWhRwJOb2C9QJt0d1Kfhuk7inH4o5E5A==",
   "success": true,
-  "projectFilePath": "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\TECH_CHALLENGER\\Projeto\\Lanchonete\\InfraMongoDb\\InfraMongoDb.csproj",
+  "projectFilePath": "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\2025\\TechChallenge-Lanchonete\\InfraMongoDb\\InfraMongoDb.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\peeeh\\.nuget\\packages\\awssdk.core\\3.7.100.14\\awssdk.core.3.7.100.14.nupkg.sha512",
     "C:\\Users\\peeeh\\.nuget\\packages\\awssdk.securitytoken\\3.7.100.14\\awssdk.securitytoken.3.7.100.14.nupkg.sha512",
