@@ -204,7 +204,7 @@ Para parar o projeto e os serviços em execução, você pode pressionar Ctrl + 
 	```
     ```
 	{
-      "nome": "Brownie,
+      "nome": "Brownie",
       "categoria": "Sobremesa",
       "preco": 7.00,
       "descricao": "Brownie é uma sobremesa de chocolate típico da culinária dos Estados Unidos",
