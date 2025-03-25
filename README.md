@@ -132,7 +132,6 @@ O **Minikube** é uma ferramenta que permite rodar um cluster Kubernetes localme
 7. Acessar o Swagger da API
    ```
    http://localhost:8080/swagger/index.html
-
 ## Exemplos de JSON para a API
 
 1. **Cadastro de Categorias**
