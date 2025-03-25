@@ -89,27 +89,49 @@ Antes de rodar o projeto, certifique-se de que os seguintes pré-requisitos est�
    - Baixe e instale o .NET 8 SDK a partir do [site oficial da Microsoft](https://dotnet.microsoft.com/download/dotnet/8.0).
    - Verifique a instalação executando `dotnet --version` no terminal.
 
-## Executando o Projeto
+## Execução com Minikube (Kubernetes)
 
-1. **Clone o Repositório**
+Além da execução com Docker Compose, também configurei o projeto para rodar com Kubernetes utilizando o Minikube, a fim de simular um ambiente de produção mais realista.
+
+### O que é o Minikube?
+
+O **Minikube** é uma ferramenta que permite rodar um cluster Kubernetes localmente. Ele é bastante útil para testes e desenvolvimento de aplicações que precisam ser executadas em ambientes orquestrados.
+
+---
+
+### Passo a passo para execução com Minikube
+
+1. **Inicie o cluster Minikube**
    ```bash
-   git clone https://github.com/PBatista/TechChallenge-Lanchonete.git
-   branch master   
+   minikube start
 
-2. **Acesse a pasta do projeto**:
-   - cd Lanchonete
+2. **Apontar o Docker para o Minikube (build interno)**
+   No Linux/macOS:
+   ```bash
+   No Linux/macOS:
+   eval $(minikube docker-env)
+   No Windows PowerShell:
+   & minikube docker-env --shell powershell | Invoke-Expression
 
-3. **Inicie os serviços usando o Docker Compose**:
-   - docker-compose up
+3. Buildar a imagem da API no Docker do Minikube
+    ```bash
+   docker build -t api:latest -f API/Dockerfile .
 
-4. **Acesse a url do Swagger**:
-   - URL: http://localhost:8080/swagger/index.html
+4. Aplicar os manifestos YAML do Kubernetes
+    ```bash
+    kubectl apply -f k8s/
+    
+5. Verificar se os pods estão rodando
+   ```bash
+   kubectl get pods
+   
+6. Expor localmente a porta da API (via port-forward)
+   ```bash
+   kubectl port-forward service/api-service 8080:8080
 
-## Parando o Projeto
-Para parar o projeto e os serviços em execução, você pode pressionar Ctrl + C no terminal onde o docker-compose up está sendo executado. Em seguida, você pode limpar os contêineres com:
-
-1. **Parar o projeto**
-   - docker-compose down
+7. Acessar o Swagger da API
+   ```
+   http://localhost:8080/swagger/index.html
 
 ## Exemplos de JSON para a API
 
@@ -279,3 +301,13 @@ Para parar o projeto e os serviços em execução, você pode pressionar Ctrl + 
 7. **Listar os pedidos Por status**
    * Endpoint: GET /api/v1/pedidos/listar-pedidos-status/{StatusPedido}
 	- Exemplo de Status Pedido: EM PREPARO, PRONTO, FINALIZADO
+
+8. **Simular o Webhook de pagamento**
+  * Endpoint: GET /v1/webhook/pagamento
+  - Exemplo de JSON
+    
+  ```
+	{
+  	    "status": "EM PREPARO"
+	}
+  ```
