@@ -4,9 +4,9 @@ Este projeto é uma aplicação para gestão de pedidos de uma lanchonete utiliz
 
 ## Tecnologias utilizadas no Projeto
 
-| Docker | Mongo DB   | .Net     |   
-|--------|------------|----------|
-| *      | *          | 8.0.x    |
+| Docker | Mongo DB   | .Net     | Kubernetes | Minikube   |
+|--------|------------|----------| -----------| -----------|
+| *      | *          | 8.0.x    |  *         |  *         |
 
 ## Membros do Projeto
 
