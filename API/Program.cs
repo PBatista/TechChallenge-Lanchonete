@@ -34,11 +34,21 @@ builder.Services.AddTransient<IPagamentoRepository, PagamentoRepository>();
 builder.Services.AddTransient<IMercadoPagoService, MercadoPagoService>();
 
 // Registro do IMongoClient
+//builder.Services.AddSingleton<IMongoClient>(sp =>
+//{
+//    var connectionString = Environment.GetEnvironmentVariable("MONGO_URI");
+//    return new MongoClient(connectionString);
+//});
+
 builder.Services.AddSingleton<IMongoClient>(sp =>
-{      
-    var connectionString = Environment.GetEnvironmentVariable("MONGO_URI");
-    return new MongoClient(connectionString);
+{
+    var mongoUser = Environment.GetEnvironmentVariable("MONGO_USERNAME");
+    var mongoPass = Environment.GetEnvironmentVariable("MONGO_PASSWORD");
+    // var mongoUri = $"mongodb://{mongoUser}:{mongoPass}@mongo-service:27018/?authMechanism=SCRAM-SHA-256";
+    var mongoUri = "mongodb://127.0.0.1:27017/lanchonete";
+    return new MongoClient(mongoUri);
 });
+
 
 // Registro do IMongoDatabase
 builder.Services.AddScoped<IMongoDatabase>(sp =>
@@ -53,11 +63,8 @@ builder.Services.AddScoped<IMongoDatabase>(sp =>
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseAuthorization();
 
