@@ -21,8 +21,12 @@ namespace API.Controllers
         {
             try
             {
-                var resultado = await _pedidoUseCase.SalvarPedido(pedido);
-                return Ok($"Cadastro do pedido feito com sucesso. Num do pedido '{resultado}'");
+                var resultado = await _pedidoUseCase.SalvarPedido(pedido);                
+                return Ok(new
+                {
+                    mensagem = $"Cadastro do pedido feito com sucesso.",
+                    numPedido = resultado
+                });                
             }
             catch (Exception ex)
             {
@@ -64,5 +68,21 @@ namespace API.Controllers
             var pedidos = await _pedidoUseCase.ListarPedidosEmAndamento();
             return Ok(pedidos);
         }
+
+        [HttpGet("status-pagamento/{numPedido}")]
+        public async Task<ActionResult> ConsultarStatusPagamento(string numPedido)
+        {
+            var pedido = await _pedidoUseCase.ObterPedidoPorNumero(numPedido.Trim());
+
+            if (pedido == null)
+                return NotFound(new { mensagem = $"Pedido '{numPedido}' não encontrado." });
+
+            return Ok(new
+            {
+                numPedido = pedido.NumPedido,
+                statusPagamento = pedido.Status
+            });
+        }
+
     }
 }
