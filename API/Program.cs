@@ -44,8 +44,8 @@ builder.Services.AddSingleton<IMongoClient>(sp =>
 {
     var mongoUser = Environment.GetEnvironmentVariable("MONGO_USERNAME");
     var mongoPass = Environment.GetEnvironmentVariable("MONGO_PASSWORD");
-    // var mongoUri = $"mongodb://{mongoUser}:{mongoPass}@mongo-service:27018/?authMechanism=SCRAM-SHA-256";
-    var mongoUri = "mongodb://127.0.0.1:27017/lanchonete";
+    var mongoUri = $"mongodb://{mongoUser}:{mongoPass}@mongo-service:27018/?authMechanism=SCRAM-SHA-256";
+    // var mongoUri = "mongodb://127.0.0.1:27017/lanchonete";
     return new MongoClient(mongoUri);
 });
 
