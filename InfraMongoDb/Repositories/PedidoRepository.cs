@@ -28,7 +28,7 @@ namespace InfraMongoDb.Repositories
             _pedidoCollection.InsertOne(pedidoDTO.ToBsonDocument());
 
             return pedidoDTO.NumPedido;
-        }              
+        }
 
         public async Task<List<Pedido>> ListarPedidos()
         {
@@ -36,7 +36,7 @@ namespace InfraMongoDb.Repositories
             var pedidos = new List<Pedido>();
 
             foreach (var document in pedidoDocuments)
-            {                
+            {
                 var pedidoDTO = BsonSerializer.Deserialize<PedidoDTO>(document);
                 Pedido pedido = PedidoMapper.MapToEntity(pedidoDTO);
                 pedidos.Add(pedido);
@@ -47,12 +47,17 @@ namespace InfraMongoDb.Repositories
 
         public async Task<List<Pedido>> ListarPedidosEmAndamento()
         {
-                   
-            var filterFinalizado = Builders<BsonDocument>.Filter.Ne("Status", StatusPedidoEnum.FINALIZADO.GetDescription());
-            var filterNull = Builders<BsonDocument>.Filter.Ne("Status", StatusPedidoEnum.AGUARDANDO_PAGAMENTO.GetDescription());
-            var combinedFilter = Builders<BsonDocument>.Filter.And(filterFinalizado, filterNull);
+            // Filtrar apenas os pedidos com status que nos interessam
+            var statusValidos = new[]
+            {
+                StatusPedidoEnum.RECEBIDO.GetDescription(),
+                StatusPedidoEnum.EM_PREPARO.GetDescription(),
+                StatusPedidoEnum.PRONTO.GetDescription()
+            };
 
-            var pedidoDocuments = await _pedidoCollection.Find(combinedFilter).ToListAsync();
+            var filtro = Builders<BsonDocument>.Filter.In("Status", statusValidos);
+
+            var pedidoDocuments = await _pedidoCollection.Find(filtro).ToListAsync();
             var pedidos = new List<Pedido>();
 
             foreach (var document in pedidoDocuments)
@@ -62,12 +67,52 @@ namespace InfraMongoDb.Repositories
                 pedidos.Add(pedido);
             }
 
-            return pedidos;
+            // Agora fazemos a ordenação múltipla em memória
+            var pedidosOrdenados = pedidos
+                .OrderBy(p => ObterPesoStatus(p.Status))
+                .ThenBy(p => p.DataHora) // ou NumPedido se preferir
+                .ToList();
+
+            return pedidosOrdenados;
         }
+
+        // Função auxiliar para aplicar peso nos status para ordenar
+        private int ObterPesoStatus(string status)
+        {
+            return status switch
+            {
+                var s when s == StatusPedidoEnum.PRONTO.GetDescription() => 0,
+                var s when s == StatusPedidoEnum.EM_PREPARO.GetDescription() => 1,
+                var s when s == StatusPedidoEnum.RECEBIDO.GetDescription() => 2,
+                _ => 3 // Outros status ficarão sempre no final
+            };
+        }
+
+
+
+        //public async Task<List<Pedido>> ListarPedidosEmAndamento()
+        //{
+
+        //    var filterFinalizado = Builders<BsonDocument>.Filter.Ne("Status", StatusPedidoEnum.FINALIZADO.GetDescription());
+        //    var filterNull = Builders<BsonDocument>.Filter.Ne("Status", StatusPedidoEnum.AGUARDANDO_PAGAMENTO.GetDescription());
+        //    var combinedFilter = Builders<BsonDocument>.Filter.And(filterFinalizado, filterNull);
+
+        //    var pedidoDocuments = await _pedidoCollection.Find(combinedFilter).ToListAsync();
+        //    var pedidos = new List<Pedido>();
+
+        //    foreach (var document in pedidoDocuments)
+        //    {
+        //        var pedidoDTO = BsonSerializer.Deserialize<PedidoDTO>(document);
+        //        Pedido pedido = PedidoMapper.MapToEntity(pedidoDTO);
+        //        pedidos.Add(pedido);
+        //    }
+
+        //    return pedidos;
+        //}
 
         public async Task<Pedido> ObterPedidoPorNumero(string numPedido)
         {
-            var filtro = Builders<BsonDocument>.Filter.Eq("NumPedido", numPedido);            
+            var filtro = Builders<BsonDocument>.Filter.Eq("NumPedido", numPedido);
             var resultado = await _pedidoCollection.Find(filtro).FirstOrDefaultAsync();
 
             if (resultado != null)
@@ -83,10 +128,10 @@ namespace InfraMongoDb.Repositories
         }
 
         public Task AtualizarStatusPedido(string status, string numPedido)
-        {            
+        {
 
             var filtro = Builders<BsonDocument>.Filter.Eq("NumPedido", numPedido);
-            var atualizacao = Builders<BsonDocument>.Update.Set("Status", status);                                                      
+            var atualizacao = Builders<BsonDocument>.Update.Set("Status", status);
 
             var resultado = _pedidoCollection.UpdateOne(filtro, atualizacao);
 
@@ -101,7 +146,7 @@ namespace InfraMongoDb.Repositories
         }
 
         public async Task<string> ObterProximoNumeroPedidoAsync()
-        {            
+        {
 
             var ultimoPedido = await _pedidoCollection
                 .Find(new BsonDocument())
