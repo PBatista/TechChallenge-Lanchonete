@@ -1,4 +1,5 @@
 ﻿using Application.ApplicationDTO;
+using Application.ControllerApp;
 using Application.IUseCase;
 using Domain.Base;
 using Domain.Entities.Enum;
@@ -8,17 +9,27 @@ namespace API.Controllers
 {
     [ApiController]
     [Route("api/v1/checkouts")]
-    public class CheckoutController(ILogger<CheckoutController> logger, ICheckoutUseCase checkoutUseCase) : ControllerBase
+    public class CheckoutController : ControllerBase
     {
-        public readonly ILogger<CheckoutController> _logger = logger;
-        private readonly ICheckoutUseCase _checkoutUseCase = checkoutUseCase;
+        private readonly CheckoutAppController _appController;
+
+        public CheckoutController(CheckoutAppController appController)
+        {
+            _appController = appController;
+        }
 
         [HttpPost]
-        public async Task<ActionResult> ProcessarPagamento([FromBody] CheckoutApplicationDTO checkoutDTO)
+        public async Task<ActionResult> ProcessarPagamento([FromBody] CheckoutApplicationDTO dto)
         {
-            string numPedido = checkoutDTO.NumPedido;
-            await _checkoutUseCase.ProcessarPagamento(numPedido);
-            return Ok($"Pagamento finalizado com sucesso. O Pedido num '{numPedido}' teve o status atualizado para '{StatusPedidoEnum.RECEBIDO.GetDescription()}'.");
+            try
+            {
+                await _appController.ProcessarPagamento(dto.NumPedido);
+                return Ok($"Pagamento finalizado com sucesso. O Pedido '{dto.NumPedido}' teve o status atualizado para '{StatusPedidoEnum.RECEBIDO.GetDescription()}'.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

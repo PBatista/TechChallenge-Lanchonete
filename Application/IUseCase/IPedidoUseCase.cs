@@ -4,15 +4,15 @@ using Domain.Entities;
 namespace Application.IUseCase
 {
     public interface IPedidoUseCase
-    {       
+    {
 
-        Task<string> SalvarPedido(PedidoApplicationDTO pedido);       
         Task<List<Pedido>> ListarPedidos();
-        Task<List<Pedido>> ListarPedidosEmAndamento();
         Task<List<Pedido>> ListarPedidosPorStatus(string status);
+        Task<List<Pedido>> ListarPedidosEmAndamento();
         Task<Pedido> ObterPedidoPorNumero(string numPedido);
+        Task<string> SalvarPedido(PedidoApplicationDTO pedidoDTO);
         Task AtualizarStatus(string status, string numPedido);
-        Task<bool> ValidarStatusPedido(string numPedido, string status);
+        Task<bool> ValidarStatusPedido(string status, string numPedido);
 
 
     }
