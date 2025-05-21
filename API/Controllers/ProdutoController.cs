@@ -1,80 +1,94 @@
-﻿using Application.IUseCase;
-using Domain.Entities;
+﻿using Application.ApplicationDTO;
+using Application.ControllerApp;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
     [ApiController]
     [Route("api/v1/produtos")]
-    public class ProdutoController(ILogger<ProdutoController> logger, IProdutoUseCase produtoUseCase, ICategoriaUseCase categoriaUseCase) : ControllerBase
+    public class ProdutoController : ControllerBase
     {
-        public readonly ILogger<ProdutoController> _logger = logger;
-        public readonly IProdutoUseCase _produtoUseCase = produtoUseCase;
-        public readonly ICategoriaUseCase _categoriaUseCase = categoriaUseCase;
+        private readonly ProdutoAppController _appController;
+        public readonly ILogger<ProdutoController> _logger;
+
+        public ProdutoController(ProdutoAppController appController, ILogger<ProdutoController> logger)
+        {
+            _appController = appController;
+            _logger = logger;
+        }
 
         [HttpGet]
-        public async Task<ActionResult<List<Produto>>> Get()
+        public async Task<ActionResult<List<ProdutoDTO>>> Get()
         {
-            var produtos = await _produtoUseCase.ListarProdutos();
+            var produtos = await _appController.ListarProdutos();
             return Ok(produtos);
         }
 
-        [HttpPost]
-        public async Task<ActionResult> Post(Produto produto)
+        [HttpGet("{nome}")]
+        public async Task<ActionResult<ProdutoDTO>> GetByName(string nome)
         {
-            Produto produtoCadastrado = await _produtoUseCase.ObterProdutoPorNome(produto.Nome);
-            if (produtoCadastrado != null)
-            {
-                return BadRequest($"O produto '{produto.Nome.Trim()}' já está cadastrado");
-            }
-            else if (!await _categoriaUseCase.ValidarCategoria(produto.Categoria))
-            {
-                return BadRequest($"A categoria '{produto.Categoria.Trim()}' não existe na nossa base de dados, favor escolha uma categoria válida");
-            }
-            await _produtoUseCase.SalvarProduto(produto);
-            return Ok($"Cadastro do produto '{produto.Nome}' foi feito com sucesso");
+            var produto = await _appController.ObterProdutoPorNome(nome.Trim());
+            if (produto == null)
+                return NotFound($"O produto '{nome}' não foi encontrado.");
+            return Ok(produto);
+        }
 
+        [HttpGet("categoria/{categoria}")]
+        public async Task<ActionResult<List<ProdutoDTO>>> GetByCategoria(string categoria)
+        {
+            try
+            {
+                var produtos = await _appController.ObterProdutosPorCategoria(categoria.Trim());
+                if (produtos == null || produtos.Count == 0)
+                    return NotFound($"Não existem produtos cadastrados com a categoria '{categoria}'.");
+                return Ok(produtos);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Post([FromBody] ProdutoDTO dto)
+        {
+            try
+            {
+                await _appController.SalvarProduto(dto);
+                return Ok($"Cadastro do produto '{dto.Nome}' foi feito com sucesso.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPut("{nome}")]
-        public async Task<ActionResult> Put(string nome, Produto produto)
+        public async Task<ActionResult> Put(string nome, [FromBody] ProdutoDTO dto)
         {
-            Produto produtoCadastrado = await _produtoUseCase.ObterProdutoPorNome(nome);
-            if (produtoCadastrado == null)
+            try
             {
-                return BadRequest($"O produto '{nome.Trim()}' não está cadastrado, favor escolha um produto válido.");
+                await _appController.EditarProduto(nome.Trim(), dto);
+                return Ok($"Produto '{nome}' editado com sucesso.");
             }
-            else if (!await _categoriaUseCase.ValidarCategoria(produto.Categoria))
+            catch (Exception ex)
             {
-                return BadRequest($"A categoria '{produto.Categoria.Trim()}' não existe na nossa base de dados, favor escolha uma categoria válida");
+                return BadRequest(ex.Message);
             }
-            await _produtoUseCase.EditarProduto(nome, produto);
-            return Ok($"Produto '{nome}' foi editado com sucesso");
         }
 
         [HttpDelete("{nome}")]
         public async Task<ActionResult> Delete(string nome)
         {
-            await _produtoUseCase.DeletarProduto(nome);
-            return Ok($"Produto '{nome}' deletado com sucesso");
-        }
-
-        [HttpGet("categoria/{categoria}")]
-        public async Task<ActionResult> ObterProdutosPorCategoria(string categoria)
-        {
-            if (await _categoriaUseCase.ValidarCategoria(categoria.ToUpper().Trim()))
+            try
             {
-                var produtos = await _produtoUseCase.ObterProdutosPorCategoria(categoria.ToUpper().Trim());
-                if (produtos != null && produtos.Count > 0)
-                {
-                    return Ok(produtos);
-                }
-                else
-                {
-                    return BadRequest($"Não existe produtos com a categoriao '{categoria.ToUpper().Trim()}'");
-                }
+                await _appController.DeletarProduto(nome.Trim());
+                return Ok($"Produto '{nome}' deletado com sucesso.");
             }
-            else return BadRequest($"A categoria '{categoria.ToUpper().Trim()}' não existe");
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

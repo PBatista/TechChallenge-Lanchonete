@@ -1,3 +1,8 @@
+using API.Presenters;
+using Application.ControllerApp;
+using Application.Gateways;
+using Application.IGateways;
+using Application.IPresenters;
 using Application.IUseCase;
 using Application.UseCase;
 using Domain.Repositories;
@@ -18,19 +23,37 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 #region Services && Repositories && DB Configurations 
-builder.Services.AddTransient<IProdutoUseCase, ProdutoUseCase>();
-builder.Services.AddTransient<IClienteUseCase, ClienteUseCase>();
+
+builder.Services.AddTransient<CategoriaAppController>();
 builder.Services.AddTransient<ICategoriaUseCase, CategoriaUseCase>();
-builder.Services.AddTransient<IPedidoUseCase, PedidoUseCase>();
-builder.Services.AddTransient<ICheckoutUseCase, CheckoutUseCase>();
-builder.Services.AddTransient<INotificaoUseCase, NotificaoUseCase>();
-
+builder.Services.AddTransient<ICategoriaGateway, CategoriaGateway>();
+builder.Services.AddTransient<ICategoriaPresenter, CategoriaPresenter>();
 builder.Services.AddTransient<ICategoriaRepository, CategoriaRepository>();
-builder.Services.AddTransient<IProdutoRepository, ProdutoRepository>();
-builder.Services.AddTransient<IClienteRepository, ClienteRepository>();
-builder.Services.AddTransient<IPedidoRepository, PedidoRepository>();
-builder.Services.AddTransient<IPagamentoRepository, PagamentoRepository>();
 
+builder.Services.AddTransient<ProdutoAppController>();
+builder.Services.AddTransient<IProdutoUseCase, ProdutoUseCase>();
+builder.Services.AddTransient<IProdutoGateway, ProdutoGateway>();
+builder.Services.AddTransient<IProdutoPresenter, ProdutoPresenter>();
+builder.Services.AddTransient<IProdutoRepository, ProdutoRepository>();
+
+builder.Services.AddTransient<ClienteAppController>();
+builder.Services.AddTransient<IClienteUseCase, ClienteUseCase>();
+builder.Services.AddTransient<IClienteGateway, ClienteGateway>();
+builder.Services.AddTransient<IClientePresenter, ClientePresenter>();
+builder.Services.AddTransient<IClienteRepository, ClienteRepository>();
+
+builder.Services.AddTransient<PedidoAppController>();
+builder.Services.AddTransient<IPedidoUseCase, PedidoUseCase>();
+builder.Services.AddTransient<IPedidoGateway, PedidoGateway>();
+builder.Services.AddTransient<IPedidoPresenter, PedidoPresenter>();
+builder.Services.AddTransient<IPedidoRepository, PedidoRepository>();
+
+builder.Services.AddTransient<CheckoutAppController>();
+builder.Services.AddTransient<ICheckoutUseCase, CheckoutUseCase>();
+builder.Services.AddTransient<IPagamentoGateway, PagamentoGateway>();
+
+builder.Services.AddTransient<INotificaoUseCase, NotificaoUseCase>();
+builder.Services.AddTransient<IPagamentoRepository, PagamentoRepository>();
 builder.Services.AddTransient<IMercadoPagoService, MercadoPagoService>();
 
 // Registro do IMongoClient
@@ -44,8 +67,8 @@ builder.Services.AddSingleton<IMongoClient>(sp =>
 {
     var mongoUser = Environment.GetEnvironmentVariable("MONGO_USERNAME");
     var mongoPass = Environment.GetEnvironmentVariable("MONGO_PASSWORD");
-    var mongoUri = $"mongodb://{mongoUser}:{mongoPass}@mongo-service:27018/?authMechanism=SCRAM-SHA-256";
-    // var mongoUri = "mongodb://127.0.0.1:27017/lanchonete";
+    // var mongoUri = $"mongodb://{mongoUser}:{mongoPass}@mongo-service:27018/?authMechanism=SCRAM-SHA-256";
+    var mongoUri = "mongodb://127.0.0.1:27017/lanchonete";
     return new MongoClient(mongoUri);
 });
 

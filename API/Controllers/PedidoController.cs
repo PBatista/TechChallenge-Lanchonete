@@ -1,7 +1,7 @@
 ﻿using Application.ApplicationDTO;
+using Application.ControllerApp;
 using Application.IUseCase;
 using Domain.Base;
-using Domain.Entities;
 using Domain.Entities.Enum;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,23 +10,28 @@ namespace API.Controllers
 {
     [ApiController]
     [Route("api/v1/pedidos")]
-    public class PedidoController(ILogger<PedidoController> logger, IPedidoUseCase pedidoUseCase, INotificaoUseCase notificationUseCase) : ControllerBase
+    public class PedidoController : ControllerBase
     {
-        public readonly ILogger<PedidoController> _logger = logger;
-        public readonly IPedidoUseCase _pedidoUseCase = pedidoUseCase;
-        public readonly INotificaoUseCase _notificationUseCase = notificationUseCase;
+        private readonly PedidoAppController _appController;
+        private readonly INotificaoUseCase _notificationUseCase;
+
+        public PedidoController(PedidoAppController appController, INotificaoUseCase notificationUseCase)
+        {
+            _appController = appController;
+            _notificationUseCase = notificationUseCase;
+        }
 
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] PedidoApplicationDTO pedido)
         {
             try
             {
-                var resultado = await _pedidoUseCase.SalvarPedido(pedido);                
+                var numero = await _appController.SalvarPedido(pedido);
                 return Ok(new
                 {
-                    mensagem = $"Cadastro do pedido feito com sucesso.",
-                    numPedido = resultado
-                });                
+                    mensagem = "Cadastro do pedido feito com sucesso.",
+                    numPedido = numero
+                });
             }
             catch (Exception ex)
             {
@@ -35,45 +40,59 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Pedido>>> Get()
+        public async Task<ActionResult<List<PedidoDTO>>> Get()
         {
-            var pedidos = await _pedidoUseCase.ListarPedidos();
+            var pedidos = await _appController.ListarPedidos();
             return Ok(pedidos);
         }
 
         [HttpPatch("{numPedido}/status")]
-        public async Task<ActionResult> AtualizarStatus(string numPedido, [FromBody]AtualizarStatusDTO atualizarStatusDto)
+        public async Task<ActionResult> AtualizarStatus(string numPedido, [FromBody] AtualizarStatusDTO dto)
         {
-            string status = atualizarStatusDto.Status.Trim().ToUpper();
-            if (await _pedidoUseCase.ValidarStatusPedido(status, numPedido)) await _pedidoUseCase.AtualizarStatus(status, numPedido.Trim());
-
-            if (atualizarStatusDto.Equals(StatusPedidoEnum.PRONTO.GetDescription()))
+            try
             {
-                await _notificationUseCase.NotificarClientePedidoPronto(numPedido.Trim());
-                return Ok($"Status do pedido '{numPedido}' foi atualizado para '{status}' com sucesso e o cliente foi notificado");
+                var status = dto.Status.Trim().ToUpper();
+                await _appController.AtualizarStatus(status, numPedido.Trim());
+
+                if (status == StatusPedidoEnum.PRONTO.GetDescription())
+                {
+                    await _notificationUseCase.NotificarClientePedidoPronto(numPedido.Trim());
+                    return Ok($"Status do pedido '{numPedido}' foi atualizado para '{status}' com sucesso e o cliente foi notificado.");
+                }
+
+                return Ok($"Status do pedido '{numPedido}' foi atualizado para '{status}' com sucesso.");
             }
-            return Ok($"Status do pedido '{numPedido}' foi atualizado para '{status}' com sucesso");
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet("listar-pedidos-status/{status}")]
-        public async Task<ActionResult> ListarPedidosPorStatus(string status)
+        public async Task<ActionResult<List<PedidoDTO>>> ListarPedidosPorStatus(string status)
         {
-            var pedidos = await _pedidoUseCase.ListarPedidosPorStatus(status.ToUpper());
-            return Ok(pedidos);
+            try
+            {
+                var pedidos = await _appController.ListarPedidosPorStatus(status.Trim().ToUpper());
+                return Ok(pedidos);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet("listar-pedidos-andamento")]
-        public async Task<ActionResult> ListarPedidosEmAndamento()
+        public async Task<ActionResult<List<PedidoDTO>>> ListarPedidosEmAndamento()
         {
-            var pedidos = await _pedidoUseCase.ListarPedidosEmAndamento();
+            var pedidos = await _appController.ListarPedidosEmAndamento();
             return Ok(pedidos);
         }
 
         [HttpGet("status-pagamento/{numPedido}")]
         public async Task<ActionResult> ConsultarStatusPagamento(string numPedido)
         {
-            var pedido = await _pedidoUseCase.ObterPedidoPorNumero(numPedido.Trim());
-
+            var pedido = await _appController.ObterPedidoPorNumero(numPedido.Trim());
             if (pedido == null)
                 return NotFound(new { mensagem = $"Pedido '{numPedido}' não encontrado." });
 
@@ -83,6 +102,5 @@ namespace API.Controllers
                 statusPagamento = pedido.Status
             });
         }
-
     }
 }

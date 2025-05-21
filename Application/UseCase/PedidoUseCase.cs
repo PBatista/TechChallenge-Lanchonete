@@ -1,23 +1,24 @@
 ﻿using Application.ApplicationDTO;
+using Application.IGateways;
 using Application.IUseCase;
 using Domain.Base;
 using Domain.Entities;
 using Domain.Entities.Enum;
-using Domain.Repositories;
 
 
 namespace Application.UseCase
 {
     public class PedidoUseCase : IPedidoUseCase
     {
-        private readonly IPedidoRepository _pedidoRepository;
+        private readonly IPedidoGateway _pedidoGateway;
         private readonly IClienteUseCase _clienteUseCase;
         private readonly IProdutoUseCase _produtoUseCase;
+
         readonly string NUMERO_DO_PEDIDO_VAZIO = string.Empty;
 
-        public PedidoUseCase(IPedidoRepository pedidoRepository, IClienteUseCase clienteUseCase, IProdutoUseCase produtoUseCase)
+        public PedidoUseCase(IPedidoGateway pedidoGateway, IClienteUseCase clienteUseCase, IProdutoUseCase produtoUseCase)
         {
-            _pedidoRepository = pedidoRepository;
+            _pedidoGateway = pedidoGateway;
             _clienteUseCase = clienteUseCase;
             _produtoUseCase = produtoUseCase;
         }
@@ -26,11 +27,11 @@ namespace Application.UseCase
         {
             try
             {
-                return await _pedidoRepository.ListarPedidos();
+                return await _pedidoGateway.ListarPedidos();
             }
             catch (Exception ex)
             {
-                throw new DomainException($"Não foi possível listar os pedidos.", ex);
+                throw new DomainException("Não foi possível listar os pedidos.", ex);
             }
         }
 
@@ -38,13 +39,12 @@ namespace Application.UseCase
         {
             try
             {
-                return await _pedidoRepository.ObterPedidoPorNumero(numPedido);
+                return await _pedidoGateway.ObterPedidoPorNumero(numPedido);
             }
             catch (Exception ex)
             {
-                throw new DomainException($"Não foi possível obter o pedido com número '{numPedido}'.", ex);
+                throw new DomainException($"Não foi possível obter o pedido '{numPedido}'.", ex);
             }
-
         }
 
         public async Task<string> SalvarPedido(PedidoApplicationDTO pedidoDTO)
@@ -54,57 +54,72 @@ namespace Application.UseCase
                 Cliente? cliente = null;
 
                 if (!string.IsNullOrWhiteSpace(pedidoDTO.Cpf))
+                {
                     cliente = await _clienteUseCase.ObterClientePorCpf(pedidoDTO.Cpf);
+                }
+                else if (string.IsNullOrWhiteSpace(pedidoDTO.Descricao))
+                {
+                    pedidoDTO.Descricao = "Obs: Cliente optou por não se identificar";
+                }
                 else
-                    pedidoDTO.Descricao = string.IsNullOrWhiteSpace(pedidoDTO.Descricao)
-                        ? "Obs: Cliente optou por não se identificar"
-                        : $"{pedidoDTO.Descricao}{Environment.NewLine}Obs: Cliente optou por não se identificar";
+                {
+                    pedidoDTO.Descricao += $"{Environment.NewLine}Obs: Cliente optou por não se identificar";
+                }
 
-                List<Produto> listaProdutos = await _produtoUseCase.ListarProdutos(pedidoDTO);
-                double valorTotal = listaProdutos.Sum(prod => prod.Preco);
+                var produtos = await _produtoUseCase.ListarProdutos(pedidoDTO);
+                double valorTotal = produtos.Sum(p => p.Preco);
 
-                Pedido pedido = new(NUMERO_DO_PEDIDO_VAZIO, listaProdutos, cliente, valorTotal, StatusPedidoEnum.AGUARDANDO_PAGAMENTO.GetDescription(), pedidoDTO.Descricao, DateTime.Now);
-                return await _pedidoRepository.SalvarPedido(pedido);
+                var pedido = new Pedido(
+                    NUMERO_DO_PEDIDO_VAZIO,
+                    produtos,
+                    cliente,
+                    valorTotal,
+                    StatusPedidoEnum.AGUARDANDO_PAGAMENTO.GetDescription(),
+                    pedidoDTO.Descricao,
+                    DateTime.Now
+                );
+
+                return await _pedidoGateway.SalvarPedido(pedido);
             }
             catch (Exception ex)
             {
-                throw new DomainException($"Não foi possível salvar o pedido.", ex);
+                throw new DomainException("Não foi possível salvar o pedido.", ex);
             }
         }
 
-        public Task AtualizarStatus(string status, string numPedido)
+        public async Task AtualizarStatus(string status, string numPedido)
         {
             try
             {
-                return _pedidoRepository.AtualizarStatusPedido(status, numPedido);
+                await _pedidoGateway.AtualizarStatusPedido(status, numPedido);
             }
             catch (Exception ex)
             {
-                throw new DomainException($"Não foi possível atualizar o pedido número '{numPedido}' com o status ${status}.", ex);
+                throw new DomainException($"Não foi possível atualizar o pedido '{numPedido}' para o status '{status}'.", ex);
             }
         }
 
-        public Task<List<Pedido>> ListarPedidosEmAndamento()
+        public async Task<List<Pedido>> ListarPedidosEmAndamento()
         {
             try
             {
-                return _pedidoRepository.ListarPedidosEmAndamento();
+                return await _pedidoGateway.ListarPedidosEmAndamento();
             }
             catch (Exception ex)
             {
-                throw new DomainException($"Não foi possível listar os pedidos em andamento.", ex);
+                throw new DomainException("Não foi possível listar os pedidos em andamento.", ex);
             }
         }
 
-        public Task<List<Pedido>> ListarPedidosPorStatus(string status)
+        public async Task<List<Pedido>> ListarPedidosPorStatus(string status)
         {
             try
             {
-                return _pedidoRepository.ListarPedidosPorStatus(status);
+                return await _pedidoGateway.ListarPedidosPorStatus(status);
             }
             catch (Exception ex)
             {
-                throw new DomainException($"Não foi possível listar os pedidos pelo status {status}.", ex);
+                throw new DomainException($"Não foi possível listar os pedidos com status '{status}'.", ex);
             }
         }
 
@@ -112,26 +127,28 @@ namespace Application.UseCase
         {
             try
             {
-                var listaStatusValido = Enum.GetValues(typeof(StatusPedidoEnum))
-                          .Cast<StatusPedidoEnum>()
-                          .Select(e => e.GetDescription());
+                var statusValidos = Enum.GetValues(typeof(StatusPedidoEnum))
+                    .Cast<StatusPedidoEnum>()
+                    .Select(e => e.GetDescription());
 
-                if (!listaStatusValido.Contains(status))
-                    throw new DomainException($"O status '{status}' não é válido para o pedido número '{numPedido}'.");
+                if (!statusValidos.Contains(status))
+                    throw new DomainException($"O status '{status}' não é válido.");
 
-                var pedido = await _pedidoRepository.ObterPedidoPorNumero(numPedido) ?? throw new DomainException($"Não foi possível encontrar o pedido número '{numPedido}'.");
+                var pedido = await _pedidoGateway.ObterPedidoPorNumero(numPedido)
+                    ?? throw new DomainException($"Pedido número '{numPedido}' não encontrado.");
 
-                if (pedido.Status == StatusPedidoEnum.AGUARDANDO_PAGAMENTO.GetDescription() || pedido.Status == StatusPedidoEnum.FINALIZADO.GetDescription())
-                    throw new DomainException($"Não foi possível atualizar o pedido número '{numPedido}' com o status '{status}', pois o pedido está com o status '{pedido.Status}'.");
+                if (pedido.Status == StatusPedidoEnum.AGUARDANDO_PAGAMENTO.GetDescription()
+                 || pedido.Status == StatusPedidoEnum.FINALIZADO.GetDescription())
+                    throw new DomainException($"Pedido '{numPedido}' está com status '{pedido.Status}' e não pode ser atualizado.");
 
                 if (pedido.Status == status)
-                    throw new DomainException($"Não foi possível atualizar o pedido número '{numPedido}' com o status '{status}', pois o status já está como '{pedido.Status}'.");
+                    throw new DomainException($"Pedido '{numPedido}' já está com o status '{status}'.");
 
                 return true;
             }
             catch (Exception ex)
             {
-                throw new DomainException($"O status '{status}' não é válido para o pedido número '{numPedido}'.", ex);
+                throw new DomainException($"Erro ao validar o status '{status}' para o pedido '{numPedido}'.", ex);
             }
         }
 

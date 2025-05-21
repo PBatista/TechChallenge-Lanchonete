@@ -1,55 +1,62 @@
-﻿using Application.IUseCase;
+﻿using Application.ApplicationDTO;
+using Application.IGateways;
+using Application.IUseCase;
 using Domain.Base;
 using Domain.Entities;
-using Domain.Repositories;
 
 namespace Application.UseCase
 {
     public class ClienteUseCase : IClienteUseCase
     {
-        public readonly IClienteRepository _clienteRepository;
+        private readonly IClienteGateway _gateway;
 
-        public ClienteUseCase(IClienteRepository clienteRepository)
+        public ClienteUseCase(IClienteGateway gateway)
         {
-            _clienteRepository = clienteRepository;
+            _gateway = gateway;
         }
 
         public async Task<List<Cliente>> ListarClientes()
         {
             try
             {
-                return await _clienteRepository.ListarCliente();
+                return await _gateway.ListarClientes();
             }
             catch (Exception ex)
             {
-                throw new DomainException($"Não foi possível listar os clientes", ex);
-            }            
+                throw new DomainException("Não foi possível listar os clientes", ex);
+            }
         }
 
         public async Task<Cliente> ObterClientePorCpf(string cpf)
         {
             try
-            {                
-                return await _clienteRepository.ObterClientePorCpf(AssertionConcern.RemoveNumbers(cpf));
+            {
+                var formatado = AssertionConcern.RemoveNumbers(cpf);
+                return await _gateway.ObterClientePorCpf(formatado);
             }
             catch (Exception ex)
             {
-                throw new DomainException($"Não foi obter o cliente pelo cpf '{cpf}'", ex);
-            }            
+                throw new DomainException($"Não foi possível obter o cliente com CPF '{cpf}'", ex);
+            }
         }
 
-        public async Task SalvarCliente(Cliente cliente)
+        public async Task SalvarCliente(ClienteDTO dto)
         {
             try
             {
-                var clienteExistente = await _clienteRepository.ObterClientePorCpf(cliente.Cpf);
-                if(clienteExistente == null) await _clienteRepository.SalvarCliente(cliente);
-                else throw new DomainException($"Não foi possível salvar o cliente, pois o CPF {cliente.Cpf} já está cadastrado!");
+                var cpf = AssertionConcern.RemoveNumbers(dto.Cpf);
+                var clienteExistente = await _gateway.ObterClientePorCpf(cpf);
+
+                if (clienteExistente != null)
+                    throw new DomainException($"O CPF '{dto.Cpf}' já está cadastrado.");
+
+                var novoCliente = new Cliente(dto.Nome, cpf, dto.Email);
+                await _gateway.SalvarCliente(novoCliente);
             }
             catch (Exception ex)
             {
-                throw new DomainException($"Não foi possível salvar o cliente", ex);
-            }            
+                throw new DomainException("Não foi possível salvar o cliente.", ex);
+            }
         }
     }
 }

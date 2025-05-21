@@ -51,24 +51,33 @@ A estrutura do projeto é organizada em vários diretórios, cada um contendo um
 O projeto segue uma arquitetura Hexagonal (Ports and Adapters) e adota conceitos de Domain-Driven Design (DDD). Abaixo, a estrutura detalhada do projeto:
 
 	Solution - Lanchonete
-	├── 1 - Presentation
-	├── 2 - Core
-	│   ├── Application
-	│   │   ├── ApplicationDTO
-	│   │   ├── IUseCase
-	│   │   ├── UseCase
-	│   ├── Domain	
-	│   │   ├── Base
-	│   │   ├── Entities
-	│   │   ├── Repositories
-	├── 3 - Adapter
-	│   ├── Driven
-	│   │   ├── Infra
-	│   │       ├── InfraMongoDB
-	│   │   ├── Pagamento
-	│   │       ├── MercadoPagaIntegracao
-	│   ├── Driver
-	│   │   ├── Api		
+    ├── 1 - Presentation                   # Interface com o mundo externo (API REST)
+    │   ├── Driver
+    │   │   ├── Api
+    │   │   │   ├── Controllers            # HTTP Controllers
+    │   │   │   ├── Presenters             # Convertem Entity → DTO (interface adapters)
+    ├── 2 - Core                           # Regra de negócio pura + coordenação
+    │   ├── Application
+    │   │   ├── ApplicationDTO             # DTOs de entrada/saída
+    │   │   ├── ControllerApp              # Orquestra UseCase + Presenter
+    │   │   ├── Gateway                    # Implementações concretas (opcional)
+    │   │   ├── IGateway                   # Interfaces dos Gateways
+    │   │   ├── IPresenters                # Interfaces dos Presenters
+    │   │   ├── IUseCase                   # Interfaces dos UseCases
+    │   │   ├── UseCase                    # Casos de uso (regra de aplicação)
+    │   ├── Domain
+    │   │   ├── Base                       # Exceptions, helpers, valores base
+    │   │   ├── Entities                   # Entidades puras do domínio
+    │   │   ├── Repositories               # Interfaces de persistência (sem tecnologia)
+    ├── 3 - Adapter
+    │   ├── Driven                         # Conectores de infraestrutura
+    │   │   ├── InfraMongoDB
+    │   │   │   ├── DTO                    # Persistência (Mongo format)
+    │   │   │   ├── Mapper                 # Conversores Mongo ⇄ Entidade
+    │   │   │   ├── Repositories           # Implementação dos Repositories
+    │   │   ├── Pagamento
+    │   │   │   ├── MercadoPagaIntegracao  # Serviço externo de pagamento
+		
 
 
 ## Pré-requisitos

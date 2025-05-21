@@ -1,40 +1,49 @@
-﻿using Application.IUseCase;
-using Application.UseCase;
-using Domain.Base;
-using Domain.Entities;
+﻿using Application.ApplicationDTO;
+using Application.ControllerApp;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
     [ApiController]
     [Route("api/v1/clientes")]
-    public class ClienteController(ILogger<ClienteController> logger, IClienteUseCase clienteUseCase) : ControllerBase
+    public class ClienteController : ControllerBase
     {
-        public readonly ILogger<ClienteController> _logger = logger;
-        public readonly IClienteUseCase _clienteUseCase = clienteUseCase;
+        private readonly ClienteAppController _appController;
+
+        public ClienteController(ClienteAppController appController)
+        {
+            _appController = appController;
+        }
 
         [HttpGet]
-        public async Task<ActionResult<List<Cliente>>> Get()
+        public async Task<ActionResult<List<ClienteDTO>>> Get()
         {
-            var clientes = await _clienteUseCase.ListarClientes();
+            var clientes = await _appController.ListarClientes();
             return Ok(clientes);
         }
 
         [HttpGet("{cpf}")]
-        public async Task<ActionResult<Cliente>> GetByCpf(string cpf)
+        public async Task<ActionResult<ClienteDTO>> GetByCpf(string cpf)
         {
-            var cliente = await _clienteUseCase.ObterClientePorCpf(cpf);            
-            if (cliente != null && cliente.Cpf != "") {
-                return Ok(cliente);
-            }
-            else return BadRequest($"Cliente com CPF '{cpf}' não está cadastrado!");                        
+            var cliente = await _appController.ObterPorCpf(cpf);
+            if (cliente == null)
+                return NotFound($"Cliente com CPF '{cpf}' não está cadastrado.");
+
+            return Ok(cliente);
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post(Cliente cliente)
+        public async Task<ActionResult> Post([FromBody] ClienteDTO dto)
         {
-            await _clienteUseCase.SalvarCliente(cliente);
-            return Ok($"Cadastro do cliente '{cliente.Nome}' foi feito com sucesso");
+            try
+            {
+                await _appController.SalvarCliente(dto);
+                return Ok($"Cadastro do cliente '{dto.Nome}' foi feito com sucesso.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

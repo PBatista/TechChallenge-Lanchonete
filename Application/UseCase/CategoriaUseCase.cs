@@ -1,43 +1,54 @@
-﻿using Application.IUseCase;
+﻿using Application.ApplicationDTO;
+using Application.IGateways;
+using Application.IUseCase;
 using Domain.Base;
 using Domain.Entities;
-using Domain.Repositories;
 
 namespace Application.UseCase
 {
     public class CategoriaUseCase : ICategoriaUseCase
     {
-        public readonly ICategoriaRepository _categoriaRepository;
+        private readonly ICategoriaGateway _gateway;        
 
-        public CategoriaUseCase(ICategoriaRepository categoriaRepository)
+        public CategoriaUseCase(ICategoriaGateway gateway)
         {
-            _categoriaRepository = categoriaRepository;
+            _gateway = gateway;
         }
+
         public Task<List<Categoria>> ListarCategorias()
         {
-            return _categoriaRepository.ListarCategorias();
+            return _gateway.ListarCategorias();
         }
 
-        public async Task<bool> ValidarCategoria(string categoria)
+        public async Task<Categoria> ObterCategoriaPorNome(string nome)
+        {
+            var categoria = await _gateway.ObterCategoriaPorNome(nome);
+            return categoria;
+        }
+
+        public async Task<bool> ValidarCategoria(string nome)
         {
             try
             {
-                var categorias = await _categoriaRepository.ListarCategorias();
-                return categorias.Any(x => x.Nome.Trim() == categoria.Trim());
+                var categorias = await _gateway.ListarCategorias();
+                return categorias.Any(x => x.Nome.Trim().Equals(nome.Trim(), StringComparison.OrdinalIgnoreCase));
             }
             catch (Exception ex)
             {
-                throw new DomainException($"Não foi possível validar a categoria '{categoria}'.", ex);
+                throw new DomainException($"Não foi possível validar a categoria '{nome}'.", ex);
             }
         }
 
-        public async Task SalvarCategoria(Categoria categoria)
+        public async Task SalvarCategoria(CategoriaDTO dto)
         {
             try
             {
-                var categoriaExistente = await _categoriaRepository.ObterCategoriaPorNome(categoria.Nome);
-                if (categoriaExistente == null) await _categoriaRepository.SalvarCategoria(categoria);
-                else throw new DomainException($"Não foi possível salvar, pois a categoria '{categoria.Nome}' já está cadastrada!");
+                var existente = await _gateway.ObterCategoriaPorNome(dto.Nome);
+                if (existente != null)
+                    throw new DomainException($"A categoria '{dto.Nome}' já está cadastrada!");
+
+                var novaCategoria = new Categoria(dto.Nome);
+                await _gateway.SalvarCategoria(novaCategoria);
             }
             catch (Exception ex)
             {
@@ -45,13 +56,16 @@ namespace Application.UseCase
             }
         }
 
-        public async Task EditarCategoria(string nome, Categoria categoria)
+        public async Task EditarCategoria(string nome, CategoriaDTO dto)
         {
             try
             {
-                var categoriaExistente = await _categoriaRepository.ObterCategoriaPorNome(categoria.Nome);
-                if (categoriaExistente == null) await _categoriaRepository.EditarCategoria(nome, categoria);
-                else throw new DomainException($"Não foi possível editar, pois a categoria '{categoria.Nome}' já está cadastrada!");
+                var existente = await _gateway.ObterCategoriaPorNome(dto.Nome);
+                if (existente != null && !string.Equals(nome, dto.Nome, StringComparison.OrdinalIgnoreCase))
+                    throw new DomainException($"A categoria '{dto.Nome}' já está cadastrada!");
+
+                var categoriaAtualizada = new Categoria(dto.Nome);
+                await _gateway.EditarCategoria(nome, categoriaAtualizada);
             }
             catch (Exception ex)
             {
@@ -59,27 +73,19 @@ namespace Application.UseCase
             }
         }
 
-        public async Task<Categoria> ObterCategoriaPorNome(string nome)
-        {
-            try
-            {
-                return await _categoriaRepository.ObterCategoriaPorNome(nome);
-            }
-            catch (Exception ex)
-            {
-                throw new DomainException($"Não foi obter a categoria '{nome}'", ex);
-            }
-        }
-
         public async Task DeletarCategoria(string nome)
         {
             try
             {
-                await _categoriaRepository.DeletarCategoria(nome.ToUpper());
+                var existente = await _gateway.ObterCategoriaPorNome(nome);
+                if (existente == null)
+                    throw new DomainException($"A categoria '{nome}' não está cadastrada.");
+
+                await _gateway.DeletarCategoria(nome);
             }
             catch (Exception ex)
             {
-                throw new DomainException($"Não foi possível deletar o produto '{nome}'.", ex);
+                throw new DomainException($"Não foi possível deletar a categoria '{nome}'.", ex);
             }
         }
     }

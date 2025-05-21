@@ -1,52 +1,59 @@
-﻿using Application.IUseCase;
-using Domain.Entities;
+﻿using Application.ApplicationDTO;
+using Application.ControllerApp;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
     [ApiController]
     [Route("api/v1/categorias")]
-    public class CategoriaController(ILogger<CategoriaController> logger, ICategoriaUseCase categoriaUseCase) : ControllerBase
+    public class CategoriaController : ControllerBase
     {
-        public readonly ILogger<CategoriaController> _logger = logger;
-        public readonly ICategoriaUseCase _categoriaUseCase = categoriaUseCase;
+        private readonly CategoriaAppController _appController;
+        public readonly ILogger<CategoriaController> _logger;
+
+        public CategoriaController(CategoriaAppController appController, ILogger<CategoriaController> logger)
+        {
+            _appController = appController;
+            _logger = logger;
+        }
 
         [HttpGet]
-        public async Task<ActionResult<List<Categoria>>> Get()
+        public async Task<ActionResult<List<CategoriaDTO>>> Get()
         {
-            var categorias = await _categoriaUseCase.ListarCategorias();
-            return Ok(categorias);
+            var result = await _appController.ListarCategorias();
+            return Ok(result);
+        }
+
+        [HttpGet("{nome}")]
+        public async Task<ActionResult<CategoriaDTO>> GetByName(string nome)
+        {
+            var categoria = await _appController.ObterPorNome(nome.Trim().ToUpper());
+            if (categoria == null)
+                return NotFound($"Categoria '{nome}' não encontrada.");
+
+            return Ok(categoria);
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post(Categoria categoria)
+        public async Task<ActionResult> Post([FromBody] CategoriaDTO dto)
         {
-            await _categoriaUseCase.SalvarCategoria(categoria);
-            return Ok($"Cadastro da categoria '{categoria.Nome}' feito com sucesso");
+            await _appController.SalvarCategoria(dto);
+            return Ok($"Cadastro da categoria '{dto.Nome}' feito com sucesso.");
         }
 
         [HttpPut("{nome}")]
-        public async Task<ActionResult> Put(string nome, Categoria categoria)
+        public async Task<ActionResult> Put(string nome, [FromBody] CategoriaDTO dto)
         {
-            Categoria categoriaCadastrada = await _categoriaUseCase.ObterCategoriaPorNome(nome.ToUpper().Trim());
-            if (categoriaCadastrada == null)
-            {
-                return BadRequest($"A categoria '{nome.ToUpper().Trim()}' não está cadastrada, favor escolha uma categoria válida.");
-            }
-            await _categoriaUseCase.EditarCategoria(nome, categoria);
-            return Ok($"Edição da categoria '{categoria.Nome}' feito com sucesso");
+            await _appController.EditarCategoria(nome.Trim().ToUpper(), dto);
+            return Ok($"Categoria '{dto.Nome}' editada com sucesso.");
         }
 
         [HttpDelete("{nome}")]
         public async Task<ActionResult> Delete(string nome)
         {
-            Categoria categoriaCadastrada = await _categoriaUseCase.ObterCategoriaPorNome(nome.ToUpper().Trim());
-            if (categoriaCadastrada == null)
-            {
-                return BadRequest($"A categoria '{nome.ToUpper().Trim()}' não está cadastrada, favor escolha uma categoria válida.");
-            }
-            await _categoriaUseCase.DeletarCategoria(nome.ToUpper().Trim());
-            return Ok($"Categoria '{nome}' deletada com sucesso");
+            await _appController.DeletarCategoria(nome.Trim().ToUpper());
+            return Ok($"Categoria '{nome}' deletada com sucesso.");
         }
+
     }
 }
