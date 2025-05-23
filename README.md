@@ -1,4 +1,4 @@
-﻿## Projeto de Gestão de Pedidos de Lanchonete - Tech Challenger FIAP
+﻿## Projeto de Gestão de Pedidos de Lanchonete - Tech Challenger FIAP 
 
 Este projeto é uma aplicação para gestão de pedidos de uma lanchonete utilizando .NET 8 e MongoDB. A aplicação está configurada para ser executada em contêineres Docker, facilitando a implantação e execução.
 
