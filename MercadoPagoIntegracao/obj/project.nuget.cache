@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "qFWmghaCm/BJPMHS9ZlewwO0QosR96Xa2+WOrKDdsXJjCyf8qP1xwgHAh3H66qRtbWqNxCJ0rKvlsSYuTGducQ==",
+  "dgSpecHash": "8bq6Z6+622jLnjiGcm+JKqrmjpkj0T/vKbABPj6HS0CihBlDlLmK2iXMwq80CooVVXRMK2dGffx1Ya8HQQNslg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\TECH_CHALLENGER\\Projeto\\Lanchonete\\MercadoPagoIntegracao\\MercadoPagoIntegracao.csproj",
+  "projectFilePath": "C:\\Users\\peeeh\\OneDrive\\Documentos\\FIAP\\2025\\TechChallenge-Lanchonete\\MercadoPagoIntegracao\\MercadoPagoIntegracao.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\peeeh\\.nuget\\packages\\mercadopago-sdk\\2.3.8\\mercadopago-sdk.2.3.8.nupkg.sha512",
     "C:\\Users\\peeeh\\.nuget\\packages\\microsoft.netcore.platforms\\5.0.0\\microsoft.netcore.platforms.5.0.0.nupkg.sha512",
